@@ -1,4 +1,4 @@
-import { IPurposeValidateOptions } from '../types';
+import { IPurposeValidateOptions } from '../../types';
 
 export class ProofPurpose {
   public term: any;

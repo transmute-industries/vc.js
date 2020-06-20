@@ -1,4 +1,4 @@
-import * as vcjs from '../../index';
+import * as vcjs from '../../vc-ld/index';
 const unlockedDid = require('../unlocked-did.json');
 const jsigs = require('jsonld-signatures');
 const { Ed25519KeyPair } = require('crypto-ld');

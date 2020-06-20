@@ -1,5 +1,5 @@
 import { sign } from '@transmute/linked-data-proof';
-import { IIssueOptions } from './types';
+import { IIssueOptions } from '../types';
 import { CredentialIssuancePurpose } from './purposes';
 import { checkCredential } from './checkCredential';
 export const issue = (options: IIssueOptions) => {

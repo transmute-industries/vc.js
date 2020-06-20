@@ -1,5 +1,5 @@
 import { ControllerProofPurpose } from './ControllerProofPurpose';
-import { IPurposeValidateOptions } from '../types';
+import { IPurposeValidateOptions } from '../../types';
 
 export class AuthenticationProofPurpose extends ControllerProofPurpose {
   public challenge: string;

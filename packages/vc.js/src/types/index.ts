@@ -26,3 +26,24 @@ export interface IPurposeValidateOptions {
   documentLoader?: any;
   expansionMap?: any;
 }
+
+export interface IVcJwtPayload {
+  iss: string;
+  sub: string;
+  nbf?: number;
+  exp?: number;
+  jti?: string;
+  vc: object;
+}
+
+export interface IVcJwtPressentationPayload {
+  iss: string;
+  sub: string;
+  jti?: string;
+  vp: object;
+}
+
+export interface IVpOptions {
+  domain: string;
+  challenge: string;
+}

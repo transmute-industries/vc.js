@@ -1,7 +1,7 @@
 import { ProofPurpose } from './ProofPurpose';
 import constants from '../constants';
 
-import { IPurposeValidateOptions } from '../types';
+import { IPurposeValidateOptions } from '../../types';
 
 const jsonld = require('jsonld');
 

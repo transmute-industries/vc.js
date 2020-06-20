@@ -24,6 +24,10 @@ function _getId(obj: any) {
 
 export const checkCredential = (credential: any) => {
   // ensure first context is 'https://www.w3.org/2018/credentials/v1'
+  if (typeof credential === 'string') {
+    // might be a JWT... in which case... there is no way to validate....
+    return;
+  }
   if (credential['@context'][0] !== constants.CREDENTIALS_CONTEXT_V1_URL) {
     throw new Error(
       `"${constants.CREDENTIALS_CONTEXT_V1_URL}" needs to be first in the ` +
