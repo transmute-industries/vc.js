@@ -4,10 +4,10 @@ const vc = require('vc-js');
 const { documentLoader } = fixtures;
 
 const credential = {
-  ...fixtures.credentialTemplate,
+  ...fixtures.test_vectors.ld.credentialTemplate,
   issuer: { id: fixtures.unlockedDid.id },
   credentialSubject: {
-    ...fixtures.credentialTemplate.credentialSubject,
+    ...fixtures.test_vectors.ld.credentialTemplate.credentialSubject,
     id: fixtures.unlockedDid.id,
   },
 };

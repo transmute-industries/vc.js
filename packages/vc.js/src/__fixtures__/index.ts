@@ -1,11 +1,15 @@
 export * from './documentLoader';
 export * from './vendors';
 export const unlockedDid = require('./unlocked-did.json');
-export const credentialTemplate = require('./credential-template.json');
-export const expected = {
-  credentialIssued: require('./expected/credential-issued.json'),
-  credentialVerified: require('./expected/credential-verified.json'),
-  presentationCreated: require('./expected/presentation-created.json'),
-  presentationProved: require('./expected/presentation-proved.json'),
-  presentationVerified: require('./expected/presentation-verified.json'),
+
+export const test_vectors = {
+  ld: {
+    unlockedDid,
+    credentialTemplate: require('./test-vectors/vc-ld/credential-template.json'),
+    credentialIssued: require('./test-vectors/vc-ld/credential-issued.json'),
+    credentialVerified: require('./test-vectors/vc-ld/credential-verified.json'),
+    presentationCreated: require('./test-vectors/vc-ld/presentation-created.json'),
+    presentationProved: require('./test-vectors/vc-ld/presentation-proved.json'),
+    presentationVerified: require('./test-vectors/vc-ld/presentation-verified.json'),
+  },
 };

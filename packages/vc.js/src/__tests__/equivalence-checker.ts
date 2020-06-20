@@ -4,10 +4,10 @@ export const testVendors = (vendors: any[]) => {
   vendors.forEach(async vendor => {
     describe(vendor.name, () => {
       const credential = {
-        ...fixtures.credentialTemplate,
+        ...fixtures.test_vectors.ld.credentialTemplate,
         issuer: { id: fixtures.unlockedDid.id },
         credentialSubject: {
-          ...fixtures.credentialTemplate.credentialSubject,
+          ...fixtures.test_vectors.ld.credentialTemplate.credentialSubject,
           id: fixtures.unlockedDid.id,
         },
       };
@@ -18,18 +18,20 @@ export const testVendors = (vendors: any[]) => {
           suite: vendor.suite,
           documentLoader: fixtures.documentLoader,
         });
-        expect(credentialIssued).toEqual(fixtures.expected.credentialIssued);
+        expect(credentialIssued).toEqual(
+          fixtures.test_vectors.ld.credentialIssued
+        );
       });
 
       it('verify credential', async () => {
         const credentialVerified = await vendor.vcjs.verifyCredential({
-          credential: { ...fixtures.expected.credentialIssued },
+          credential: { ...fixtures.test_vectors.ld.credentialIssued },
           suite: vendor.suite,
           documentLoader: fixtures.documentLoader,
         });
 
         expect(credentialVerified).toEqual(
-          fixtures.expected.credentialVerified
+          fixtures.test_vectors.ld.credentialVerified
         );
       });
 
@@ -37,37 +39,39 @@ export const testVendors = (vendors: any[]) => {
         const id = 'ebc6f1c2';
         const holder = 'did:ex:12345';
         const presentationCreated = vendor.vcjs.createPresentation({
-          verifiableCredential: { ...fixtures.expected.credentialIssued },
+          verifiableCredential: {
+            ...fixtures.test_vectors.ld.credentialIssued,
+          },
           id,
           holder,
         });
         // console.log(JSON.stringify(presentationCreated, null, 2));
         expect(presentationCreated).toEqual(
-          fixtures.expected.presentationCreated
+          fixtures.test_vectors.ld.presentationCreated
         );
       });
 
       it('prove presentation', async () => {
         const presentationProved = await vendor.vcjs.signPresentation({
-          presentation: { ...fixtures.expected.presentationCreated },
+          presentation: { ...fixtures.test_vectors.ld.presentationCreated },
           suite: vendor.suite,
           challenge: '123',
           documentLoader: fixtures.documentLoader,
         });
         expect(presentationProved).toEqual(
-          fixtures.expected.presentationProved
+          fixtures.test_vectors.ld.presentationProved
         );
       });
 
       it('verify presentation', async () => {
         const presentationVerified = await vendor.vcjs.verify({
-          presentation: { ...fixtures.expected.presentationProved },
+          presentation: { ...fixtures.test_vectors.ld.presentationProved },
           suite: vendor.suite,
           challenge: '123',
           documentLoader: fixtures.documentLoader,
         });
         expect(presentationVerified).toEqual(
-          fixtures.expected.presentationVerified
+          fixtures.test_vectors.ld.presentationVerified
         );
       });
     });

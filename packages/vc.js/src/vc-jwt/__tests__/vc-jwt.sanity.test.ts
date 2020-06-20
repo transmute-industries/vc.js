@@ -32,7 +32,10 @@ describe('vc-jwt', () => {
     key = await JsonWebKey.generate();
     const signer = signerFactory('did:example:123', key.privateKeyJwk);
     const verifier = verifyFactory(key.publicKeyJwk);
-    const jwsVc = vcJwt.issue(fixtures.credentialTemplate, signer);
+    const jwsVc = vcJwt.issue(
+      fixtures.test_vectors.ld.credentialTemplate,
+      signer
+    );
     const verifiedVc = vcJwt.verify(jwsVc, verifier);
     expect(verifiedVc.protected.alg).toBe('EdDSA');
     expect(verifiedVc.protected.kid).toBeDefined();
