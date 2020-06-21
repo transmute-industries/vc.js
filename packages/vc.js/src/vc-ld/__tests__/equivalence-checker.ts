@@ -13,7 +13,7 @@ export const testVendors = (vendors: any[]) => {
       };
 
       it('issue credential', async () => {
-        const credentialIssued = await vendor.vcjs.issue({
+        const credentialIssued = await vendor.vcld.issue({
           credential: { ...credential },
           suite: vendor.suite,
           documentLoader: fixtures.documentLoader,
@@ -25,7 +25,7 @@ export const testVendors = (vendors: any[]) => {
       });
 
       it('verify credential', async () => {
-        const credentialVerified = await vendor.vcjs.verifyCredential({
+        const credentialVerified = await vendor.vcld.verifyCredential({
           credential: { ...fixtures.test_vectors.ld.credentialIssued },
           suite: vendor.suite,
           documentLoader: fixtures.documentLoader,
@@ -39,7 +39,7 @@ export const testVendors = (vendors: any[]) => {
       it('create presentation', async () => {
         const id = 'ebc6f1c2';
         const holder = 'did:ex:12345';
-        const presentationCreated = vendor.vcjs.createPresentation({
+        const presentationCreated = vendor.vcld.createPresentation({
           verifiableCredential: {
             ...fixtures.test_vectors.ld.credentialIssued,
           },
@@ -53,7 +53,7 @@ export const testVendors = (vendors: any[]) => {
       });
 
       it('prove presentation', async () => {
-        const presentationProved = await vendor.vcjs.signPresentation({
+        const presentationProved = await vendor.vcld.signPresentation({
           presentation: { ...fixtures.test_vectors.ld.presentationCreated },
           suite: vendor.suite,
           challenge: '123',
@@ -65,7 +65,7 @@ export const testVendors = (vendors: any[]) => {
       });
 
       it('verify presentation', async () => {
-        const presentationVerified = await vendor.vcjs.verify({
+        const presentationVerified = await vendor.vcld.verify({
           presentation: { ...fixtures.test_vectors.ld.presentationProved },
           suite: vendor.suite,
           challenge: '123',

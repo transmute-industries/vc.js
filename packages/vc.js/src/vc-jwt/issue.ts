@@ -49,9 +49,10 @@ export const issue = (credentialTemplate: any, signer: any) => {
     payload.nbf = moment(credentialTemplate.issuanceDate).unix();
   }
 
-  if (credentialTemplate.issuanceDate) {
+  if (credentialTemplate.expirationDate) {
     payload.exp = moment(credentialTemplate.expirationDate).unix();
   }
+  // console.log(JSON.stringify(payload, null, 2))
   const header = {};
   return signer.sign(payload, header);
 };

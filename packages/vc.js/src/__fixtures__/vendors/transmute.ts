@@ -1,4 +1,6 @@
-import * as vcjs from '../../vc-ld/index';
+import * as vcld from '../../vc-ld/index';
+import * as vcjwt from '../../vc-jwt/index';
+
 const unlockedDid = require('../unlocked-did.json');
 const jsigs = require('jsonld-signatures');
 const { Ed25519KeyPair } = require('crypto-ld');
@@ -11,9 +13,17 @@ const suite = new Ed25519Signature2018({
   date: '2019-12-11T03:50:55Z',
 });
 
+const vpOptions = {
+  domain: 'verifier.com',
+  challenge: '7cec01f7-82ee-4474-a4e6-feaaa7351e48',
+};
+
 export default {
   name: 'Transmute',
+  jwt: true,
+  vpOptions,
   key,
   suite,
-  vcjs,
+  vcld,
+  vcjwt,
 };

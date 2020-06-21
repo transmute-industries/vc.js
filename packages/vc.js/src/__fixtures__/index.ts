@@ -12,4 +12,15 @@ export const test_vectors = {
     presentationProved: require('./test-vectors/vc-ld/presentation-proved.json'),
     presentationVerified: require('./test-vectors/vc-ld/presentation-verified.json'),
   },
+  jwt: {
+    unlockedDid,
+    credentialTemplate: require('./test-vectors/vc-jwt/credential-template.json'),
+    credentialIssued: require('./test-vectors/vc-jwt/credential-issued.json')
+      .jwt,
+    credentialVerified: require('./test-vectors/vc-jwt/credential-verified.json'),
+    presentationCreated: require('./test-vectors/vc-jwt/presentation-created.json'),
+    presentationProved: require('./test-vectors/vc-jwt/presentation-proved.json')
+      .jwt,
+    presentationVerified: require('./test-vectors/vc-jwt/presentation-verified.json'),
+  },
 };

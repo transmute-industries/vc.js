@@ -11,9 +11,13 @@ const suite = new Ed25519Signature2018({
   date: '2019-12-11T03:50:55Z',
 });
 
+
+
+
 export default {
   name: 'Digital Bazaar',
+  jwt: false,
   key,
   suite,
-  vcjs,
+  vcld: vcjs,
 };
