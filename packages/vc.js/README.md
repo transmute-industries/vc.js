@@ -10,6 +10,11 @@ Beware that while JOSE and JWT tooling is widespread, there are security implica
 
 Please review [https://safecurves.cr.yp.to/](https://safecurves.cr.yp.to/) before leveraging ECDH, ECDSA, EdDSA or more generally... you are responsible for selecting cryptography that is appropriate for your users / customers...
 
+## Usage
+
+- [Web Demo](https://transmute-industries.github.io/vc.js/)
+- [Web Demo Source](https://github.com/transmute-industries/vc.js/blob/master/packages/web-app-smoke-tester/src/App.js)
+
 ### Linked Data Proofs
 
 #### Imports / Setup
