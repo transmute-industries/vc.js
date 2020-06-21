@@ -1,4 +1,4 @@
-import * as fixtures from '../__fixtures__';
+import * as fixtures from '../../__fixtures__';
 
 export const testVendors = (vendors: any[]) => {
   vendors.forEach(async vendor => {

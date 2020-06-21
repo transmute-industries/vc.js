@@ -1,4 +1,4 @@
-import * as fixtures from '../__fixtures__';
+import * as fixtures from '../../__fixtures__';
 const vc = require('vc-js');
 
 const { documentLoader } = fixtures;

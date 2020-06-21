@@ -1,4 +1,4 @@
-import * as fixtures from '../__fixtures__';
+import * as fixtures from '../../__fixtures__';
 import { runTests } from './sanityTest';
 const jsigs = require('jsonld-signatures');
 const { Ed25519KeyPair } = require('crypto-ld');
