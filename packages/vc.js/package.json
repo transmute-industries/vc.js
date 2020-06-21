@@ -47,6 +47,7 @@
   "dependencies": {
     "@transmute/linked-data-proof": "0.1.0",
     "credentials-context": "^1.0.0",
+    "jsonld": "^2.0.2",
     "moment": "^2.27.0"
   }
 }
