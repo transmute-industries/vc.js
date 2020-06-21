@@ -45,9 +45,10 @@
     "vc-js": "^0.6.4"
   },
   "dependencies": {
-    "@transmute/linked-data-proof": "0.1.0",
-    "credentials-context": "^1.0.0",
     "jsonld": "^2.0.2",
+    "security-context": "^4.0.0",
+    "credentials-context": "^1.0.0",
+    "@transmute/linked-data-proof": "0.1.0",
     "moment": "^2.27.0"
   }
 }

@@ -1,0 +1,38 @@
+{
+  "name": "@transmute/web-app-smoke-tester",
+  "homepage": "https://transmute-industries.github.io/vc.js",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@transmute/did-key-ed25519": "^0.1.0",
+    "@transmute/ed25519-signature-2018": "0.1.0",
+    "@transmute/vc.js": "0.1.0",
+    "jsonld": "^3.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "rm -rf ../../docs/* && react-scripts build && mv ./build/* ../../docs",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
