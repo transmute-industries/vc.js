@@ -9,3 +9,177 @@ Additionally, this module provides test vectors for both [Ed25519Signature2018](
 Beware that while JOSE and JWT tooling is widespread, there are security implications for supporting specific keys and algorithms, especially the "NIST Curves".
 
 Please review [https://safecurves.cr.yp.to/](https://safecurves.cr.yp.to/) before leveraging ECDH, ECDSA, EdDSA or more generally... you are responsible for selecting cryptography that is appropriate for your users / customers...
+
+### Linked Data Proofs
+
+#### Imports / Setup
+
+```js
+import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
+import { Ed25519Signature2018 } from '@transmute/ed25519-signature-2018';
+import * as vcjs from '@transmute/vc.js';
+import { documentLoader } from './documentLoader';
+const didDoc = require('./did-doc.json');
+const _credential = require('./credential.json');
+console.log({ didDoc });
+```
+
+#### Keys & Suites
+
+```js
+const key = await Ed25519KeyPair.from(didDoc.publicKey[0]);
+key.id = key.controller + key.id;
+console.log({ key });
+const suite = new Ed25519Signature2018({
+  key,
+  date: '2019-12-11T03:50:55Z',
+});
+console.log({ suite });
+```
+
+#### Issue Credential
+
+```js
+const credential = {
+  ..._credential,
+  issuer: { id: didDoc.id },
+  credentialSubject: {
+    ..._credential.credentialSubject,
+    id: didDoc.id,
+  },
+};
+const verifiableCredential = await vcjs.ld.issue({
+  credential,
+  suite,
+  documentLoader,
+});
+console.log({ verifiableCredential });
+```
+
+#### Prove Presentation
+
+```js
+const id = 'ebc6f1c2';
+const holder = 'did:ex:12345';
+const challenge = '123';
+const presentation = vcjs.ld.createPresentation({
+  verifiableCredential: verifiableCredential,
+  id,
+  holder,
+});
+console.log({ presentation });
+const verifiablePresentation = await vcjs.ld.signPresentation({
+  presentation,
+  suite,
+  challenge,
+  documentLoader,
+});
+```
+
+#### Verify Presentation
+
+```js
+console.log({ verifiablePresentation });
+const presentationVerified = await vcjs.ld.verify({
+  presentation: verifiablePresentation,
+  suite,
+  challenge,
+  documentLoader,
+});
+console.log({ presentationVerified });
+```
+
+### JSON Web Tokens
+
+#### Imports / Setup
+
+```js
+import { EdDSA } from '@transmute/did-key-ed25519';
+import * as vcjs from '@transmute/vc.js';
+// import {documentLoader} from './documentLoader'
+const didDoc = require('./did-doc.json');
+const _credential = require('./credential.json');
+
+const signerFactory = (controller, jwk) => {
+  return {
+    sign: (payload, header) => {
+      // typ: 'JWT', MUST NOT be present per well known did configuration...
+      header.kid = controller + jwk.kid;
+      return EdDSA.sign(payload, jwk, header);
+    },
+  };
+};
+
+const verifyFactory = jwk => {
+  return {
+    verify: jws => {
+      const verified = EdDSA.verify(jws, jwk, {
+        complete: true,
+      });
+      delete verified.key;
+      return verified;
+    },
+  };
+};
+
+const signer = signerFactory(
+  'did:example:123',
+  didDoc.publicKey[1].privateKeyJwk
+);
+const verifier = verifyFactory(didDoc.publicKey[1].publicKeyJwk);
+
+const credential = {
+  ..._credential,
+  issuer: { id: didDoc.id },
+  credentialSubject: {
+    ..._credential.credentialSubject,
+    id: didDoc.id,
+  },
+};
+const vpOptions = {
+  domain: 'verifier.com',
+  challenge: '7cec01f7-82ee-4474-a4e6-feaaa7351e48',
+};
+
+console.log({ didDoc });
+```
+
+#### Issue Credential
+
+```js
+const credentialIssued = vcjs.jwt.issue(credential, signer);
+console.log({ credentialIssued });
+```
+
+#### Verify Credential
+
+```js
+const credentialVerified = await vcjs.jwt.verify(credentialIssued, verifier);
+console.log({ credentialVerified });
+```
+
+#### Prove Presentation
+
+```js
+const presentationCreated = vcjs.jwt.createPresentation(
+  [credentialIssued],
+  'did:example:456'
+);
+console.log({ presentationCreated });
+const presentationProved = await vcjs.jwt.provePresentation(
+  presentationCreated,
+  vpOptions,
+  signer
+);
+console.log({ presentationProved });
+```
+
+#### Verify Presentation
+
+```js
+const presentationVerified = await vcjs.jwt.verify(
+  presentationProved,
+  verifier
+);
+console.log({ presentationVerified });
+```
