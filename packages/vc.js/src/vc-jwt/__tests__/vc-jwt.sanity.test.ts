@@ -30,6 +30,7 @@ describe('vc-jwt', () => {
   let key: JsonWebKey;
   it('sanity', async () => {
     key = await JsonWebKey.generate();
+    // console.log(JSON.stringify(key, null, 2))
     const signer = signerFactory('did:example:123', key.privateKeyJwk);
     const verifier = verifyFactory(key.publicKeyJwk);
     const jwsVc = vcJwt.issue(

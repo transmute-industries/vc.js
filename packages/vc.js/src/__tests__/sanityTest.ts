@@ -26,6 +26,7 @@ export const runTests = (suite: any) => {
   });
 
   it('verify verifiableCredential', async () => {
+    // console.log(JSON.stringify(verifiableCredential, null, 2));
     const result = await vc.verifyCredential({
       credential: verifiableCredential,
       suite,
