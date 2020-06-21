@@ -37,12 +37,19 @@
                 "publicKeyBase58": "Be2n4pVHMedX2Evg16pYUUnJkdr3rUNFu9y61tConj5M"
               }
             ],
-            "publicKey": {
-              "id": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ#z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ",
-              "type": "Ed25519VerificationKey2018",
-              "controller": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ",
-              "publicKeyBase58": "Avp3Y4RKGUHbuRnYEK4PoWLvsgFuPjs5QKSddDRFxLwB"
-            }
+            "publicKey": [
+              {
+                "id": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ#z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ",
+                "type": "Ed25519VerificationKey2018",
+                "controller": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ",
+                "publicKeyBase58": "Avp3Y4RKGUHbuRnYEK4PoWLvsgFuPjs5QKSddDRFxLwB"
+              },
+              {
+                "id": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ#llJtlNS6AEAUd7_cozAN4nWVV2pdubbMa4-gtanKUS0",
+                "type": "did:/JsonWebKey2020",
+                "controller": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ"
+              }
+            ]
           }
         }
       }

@@ -18,6 +18,7 @@ export const testVendors = (vendors: any[]) => {
           suite: vendor.suite,
           documentLoader: fixtures.documentLoader,
         });
+       
         expect(credentialIssued).toEqual(
           fixtures.test_vectors.ld.credentialIssued
         );
@@ -70,6 +71,7 @@ export const testVendors = (vendors: any[]) => {
           challenge: '123',
           documentLoader: fixtures.documentLoader,
         });
+        //  console.log(JSON.stringify(presentationVerified , null, 2))
         expect(presentationVerified).toEqual(
           fixtures.test_vectors.ld.presentationVerified
         );
