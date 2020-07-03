@@ -33,4 +33,4 @@ See the README in each package for details.
 
 Unless otherwise noted, the following License applies:
 
-[Apache-2.0](./LICENSE)
+[LICENSE](./LICENSE)
