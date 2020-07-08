@@ -117,6 +117,6 @@ export const checkCredential = async (credential: any) => {
   }
   const isValidJsonLd = await check(credential);
   if (!isValidJsonLd.ok) {
-    console.warn(isValidJsonLd.error);
+    throw new Error(`credential is not valid JSON-LD: ${isValidJsonLd.error}`);
   }
 };
