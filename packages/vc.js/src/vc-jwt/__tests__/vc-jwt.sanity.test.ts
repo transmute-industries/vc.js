@@ -54,7 +54,7 @@ describe('vc-jwt', () => {
   });
 
   it('should fail if credential is not valid json ld', async () => {
-    expect.assertions(2)
+    expect.assertions(2);
     key = await JsonWebKey.generate();
     const signer = signerFactory('did:example:123', key.privateKeyJwk);
     try {

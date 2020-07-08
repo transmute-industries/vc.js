@@ -31,7 +31,13 @@ export const checkCredential = async (credential: any) => {
   }
   const isValidJsonLd = await check(credential);
   if (!isValidJsonLd.ok) {
-    throw new Error(`credential is not valid JSON-LD: ${JSON.stringify(isValidJsonLd.error, null, 2)}`);
+    throw new Error(
+      `credential is not valid JSON-LD: ${JSON.stringify(
+        isValidJsonLd.error,
+        null,
+        2
+      )}`
+    );
   }
   if (credential['@context'][0] !== constants.CREDENTIALS_CONTEXT_V1_URL) {
     throw new Error(
