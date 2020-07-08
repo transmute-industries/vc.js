@@ -37,7 +37,7 @@ export const runTests = (suite: any) => {
   it('createPresentation & signPresentation', async () => {
     const id = 'ebc6f1c2';
     const holder = 'did:ex:12345';
-    const presentation = vc.createPresentation({
+    const presentation = await vc.createPresentation({
       verifiableCredential,
       id,
       holder,

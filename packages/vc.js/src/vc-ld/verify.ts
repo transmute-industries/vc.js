@@ -12,7 +12,7 @@ const _verifyCredential = async (options: IVerifyOptions) => {
   const { credential, checkStatus } = options;
 
   // run common credential checks
-  checkCredential(credential);
+  await checkCredential(credential);
 
   // if credential status is provided, a `checkStatus` function must be given
   if (

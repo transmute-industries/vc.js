@@ -40,7 +40,7 @@ describe('vc-jwt', () => {
     const verifiedVc = vcJwt.verify(jwsVc, verifier);
     expect(verifiedVc.protected.alg).toBe('EdDSA');
     expect(verifiedVc.protected.kid).toBeDefined();
-    const vp = vcJwt.createPresentation([jwsVc], 'did:example:456');
+    const vp = await vcJwt.createPresentation([jwsVc], 'did:example:456');
     const vpOptions = {
       domain: 'verifier.com',
       challenge: '7cec01f7-82ee-4474-a4e6-feaaa7351e48',
