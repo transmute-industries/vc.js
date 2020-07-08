@@ -1,4 +1,5 @@
 import jsonld from 'jsonld';
+import { check } from 'jsonld-checker';
 import constants from './constants';
 
 const dateRegex = new RegExp(
@@ -22,7 +23,7 @@ function _getId(obj: any) {
   return obj.id;
 }
 
-export const checkCredential = (credential: any) => {
+export const checkCredential = async (credential: any) => {
   // ensure first context is 'https://www.w3.org/2018/credentials/v1'
   if (typeof credential === 'string') {
     // might be a JWT... in which case... there is no way to validate....
@@ -113,5 +114,9 @@ export const checkCredential = (credential: any) => {
     throw new Error(
       `"expirationDate" must be a valid date: ${credential.expirationDate}`
     );
+  }
+  const isValidJsonLd = await check(credential);
+  if (!isValidJsonLd.ok) {
+    console.warn(isValidJsonLd.error);
   }
 };

@@ -1,8 +1,6 @@
 import jsonld from 'jsonld';
-
 import { verify as jSigsVerify } from '@transmute/linked-data-proof';
 import { IVerifyOptions } from '../types';
-
 import { checkPresentation } from './checkPresentation';
 import { checkCredential } from './checkCredential';
 import {
