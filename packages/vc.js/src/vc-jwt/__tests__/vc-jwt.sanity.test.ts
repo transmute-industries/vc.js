@@ -33,7 +33,7 @@ describe('vc-jwt', () => {
     // console.log(JSON.stringify(key, null, 2))
     const signer = signerFactory('did:example:123', key.privateKeyJwk);
     const verifier = verifyFactory(key.publicKeyJwk);
-    const jwsVc = vcJwt.issue(
+    const jwsVc = await vcJwt.issue(
       fixtures.test_vectors.ld.credentialTemplate,
       signer
     );

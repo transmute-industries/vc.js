@@ -152,7 +152,7 @@ console.log({ didDoc });
 #### Issue Credential
 
 ```js
-const credentialIssued = vcjs.jwt.issue(credential, signer);
+const credentialIssued = await vcjs.jwt.issue(credential, signer);
 console.log({ credentialIssued });
 ```
 
