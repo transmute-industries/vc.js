@@ -52,4 +52,27 @@ describe('vc-jwt', () => {
     expect(verifiedVp.payload.nonce).toBe(vpOptions.challenge);
     expect(verifiedVp.payload.aud).toBe(vpOptions.domain);
   });
+
+  it('should fail if credential is not valid json ld', async () => {
+    expect.assertions(2)
+    key = await JsonWebKey.generate();
+    const signer = signerFactory('did:example:123', key.privateKeyJwk);
+    try {
+      await vcJwt.issue(
+        fixtures.test_vectors.ld.credentialTemplateInvalidMissingProperty,
+        signer
+      );
+    } catch (e) {
+      expect(e.message).toContain('MISSING_PROPERTIES_IN_CONTEXT');
+    }
+
+    try {
+      await vcJwt.issue(
+        fixtures.test_vectors.ld.credentialTemplateInvalidNoContext,
+        signer
+      );
+    } catch (e) {
+      expect(e.message).toContain('jsonld.SyntaxError');
+    }
+  });
 });

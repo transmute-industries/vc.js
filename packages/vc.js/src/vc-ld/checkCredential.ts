@@ -29,6 +29,10 @@ export const checkCredential = async (credential: any) => {
     // might be a JWT... in which case... there is no way to validate....
     return;
   }
+  const isValidJsonLd = await check(credential);
+  if (!isValidJsonLd.ok) {
+    throw new Error(`credential is not valid JSON-LD: ${JSON.stringify(isValidJsonLd.error, null, 2)}`);
+  }
   if (credential['@context'][0] !== constants.CREDENTIALS_CONTEXT_V1_URL) {
     throw new Error(
       `"${constants.CREDENTIALS_CONTEXT_V1_URL}" needs to be first in the ` +
@@ -114,9 +118,5 @@ export const checkCredential = async (credential: any) => {
     throw new Error(
       `"expirationDate" must be a valid date: ${credential.expirationDate}`
     );
-  }
-  const isValidJsonLd = await check(credential);
-  if (!isValidJsonLd.ok) {
-    throw new Error(`credential is not valid JSON-LD: ${isValidJsonLd.error}`);
   }
 };
