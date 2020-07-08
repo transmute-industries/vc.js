@@ -1,3 +1,4 @@
-export * from './types'
-export * as ld from './vc-ld'
-export * as jwt from './vc-jwt'
+import * as ld from './vc-ld';
+import * as jwt from './vc-jwt';
+export * from './types';
+export { ld, jwt };
