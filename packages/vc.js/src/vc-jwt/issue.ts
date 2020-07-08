@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { check } from 'jsonld-checker';
 import { IVcJwtPayload } from '../types';
 
 import { checkCredential } from '../vc-ld/checkCredential';
@@ -15,7 +16,11 @@ const isObject = (data: any) => {
   }
   return false;
 };
-export const issue = (credentialTemplate: any, signer: any) => {
+export const issue = async (credentialTemplate: any, signer: any) => {
+  const validResult = await check(credentialTemplate);
+  if (!validResult.ok) {
+    console.warn(validResult.error);
+  }
   if (credentialTemplate.issuer === undefined) {
     throw new Error('Verifiable Credentials require an "issuer".');
   }
