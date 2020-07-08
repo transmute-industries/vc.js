@@ -67,7 +67,7 @@ console.log({ verifiableCredential });
 const id = 'ebc6f1c2';
 const holder = 'did:ex:12345';
 const challenge = '123';
-const presentation = vcjs.ld.createPresentation({
+const presentation = await vcjs.ld.createPresentation({
   verifiableCredential: verifiableCredential,
   id,
   holder,
@@ -152,7 +152,7 @@ console.log({ didDoc });
 #### Issue Credential
 
 ```js
-const credentialIssued = vcjs.jwt.issue(credential, signer);
+const credentialIssued = await vcjs.jwt.issue(credential, signer);
 console.log({ credentialIssued });
 ```
 
@@ -166,7 +166,7 @@ console.log({ credentialVerified });
 #### Prove Presentation
 
 ```js
-const presentationCreated = vcjs.jwt.createPresentation(
+const presentationCreated = await vcjs.jwt.createPresentation(
   [credentialIssued],
   'did:example:456'
 );

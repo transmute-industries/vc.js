@@ -49,18 +49,18 @@ return {
     domain: 'verifier.com',
     challenge: '7cec01f7-82ee-4474-a4e6-feaaa7351e48',
   };
-  
+
 
 export const testJwt = async ()=>{
     console.log({didDoc})
-    const credentialIssued = vcjs.jwt.issue(credential, signer);
+    const credentialIssued = await vcjs.jwt.issue(credential, signer);
     console.log({credentialIssued})
     const credentialVerified = await vcjs.jwt.verify(
       credentialIssued,
       verifier
     );
     console.log({credentialVerified})
-    const presentationCreated = vcjs.jwt.createPresentation(
+    const presentationCreated = await vcjs.jwt.createPresentation(
       [credentialIssued],
       'did:example:456'
     );

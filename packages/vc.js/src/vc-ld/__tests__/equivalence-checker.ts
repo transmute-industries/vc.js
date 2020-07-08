@@ -18,7 +18,7 @@ export const testVendors = (vendors: any[]) => {
           suite: vendor.suite,
           documentLoader: fixtures.documentLoader,
         });
-       
+
         expect(credentialIssued).toEqual(
           fixtures.test_vectors.ld.credentialIssued
         );
@@ -39,7 +39,7 @@ export const testVendors = (vendors: any[]) => {
       it('create presentation', async () => {
         const id = 'ebc6f1c2';
         const holder = 'did:ex:12345';
-        const presentationCreated = vendor.vcld.createPresentation({
+        const presentationCreated = await vendor.vcld.createPresentation({
           verifiableCredential: {
             ...fixtures.test_vectors.ld.credentialIssued,
           },

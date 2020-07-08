@@ -33,7 +33,7 @@ export const testLd = async ()=>{
     const id = 'ebc6f1c2';
     const holder = 'did:ex:12345';
     const challenge = '123'
-    const presentation = vcjs.ld.createPresentation({
+    const presentation = await vcjs.ld.createPresentation({
       verifiableCredential: verifiableCredential,
       id,
       holder,

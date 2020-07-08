@@ -5,7 +5,7 @@ import constants from './constants';
 
 import { AuthenticationProofPurpose } from './purposes';
 
-export const createPresentation = ({
+export const createPresentation = async ({
   verifiableCredential,
   id,
   holder,
@@ -18,7 +18,7 @@ export const createPresentation = ({
     const credentials = [].concat(verifiableCredential);
     // ensure all credentials are valid
     for (const credential of credentials) {
-      checkCredential(credential);
+      await checkCredential(credential);
     }
     presentation.verifiableCredential = credentials;
   }

@@ -49,7 +49,10 @@ export const testVendors = (vendors: any[]) => {
         },
       };
       it('issue credential', async () => {
-        const credentialIssued = vendor.vcjwt.issue(credential, vendor.signer);
+        const credentialIssued = await vendor.vcjwt.issue(
+          credential,
+          vendor.signer
+        );
         expect(credentialIssued).toBe(
           fixtures.test_vectors.jwt.credentialIssued
         );
@@ -66,7 +69,7 @@ export const testVendors = (vendors: any[]) => {
       });
 
       it('create presentation', async () => {
-        const presentationCreated = vendor.vcjwt.createPresentation(
+        const presentationCreated = await vendor.vcjwt.createPresentation(
           [fixtures.test_vectors.jwt.credentialIssued],
           'did:example:456'
         );

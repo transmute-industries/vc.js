@@ -1,8 +1,6 @@
 import jsonld from 'jsonld';
-
 import { verify as jSigsVerify } from '@transmute/linked-data-proof';
 import { IVerifyOptions } from '../types';
-
 import { checkPresentation } from './checkPresentation';
 import { checkCredential } from './checkCredential';
 import {
@@ -14,7 +12,7 @@ const _verifyCredential = async (options: IVerifyOptions) => {
   const { credential, checkStatus } = options;
 
   // run common credential checks
-  checkCredential(credential);
+  await checkCredential(credential);
 
   // if credential status is provided, a `checkStatus` function must be given
   if (

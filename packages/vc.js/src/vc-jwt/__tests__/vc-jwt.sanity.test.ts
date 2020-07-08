@@ -33,14 +33,14 @@ describe('vc-jwt', () => {
     // console.log(JSON.stringify(key, null, 2))
     const signer = signerFactory('did:example:123', key.privateKeyJwk);
     const verifier = verifyFactory(key.publicKeyJwk);
-    const jwsVc = vcJwt.issue(
+    const jwsVc = await vcJwt.issue(
       fixtures.test_vectors.ld.credentialTemplate,
       signer
     );
     const verifiedVc = vcJwt.verify(jwsVc, verifier);
     expect(verifiedVc.protected.alg).toBe('EdDSA');
     expect(verifiedVc.protected.kid).toBeDefined();
-    const vp = vcJwt.createPresentation([jwsVc], 'did:example:456');
+    const vp = await vcJwt.createPresentation([jwsVc], 'did:example:456');
     const vpOptions = {
       domain: 'verifier.com',
       challenge: '7cec01f7-82ee-4474-a4e6-feaaa7351e48',
@@ -51,5 +51,28 @@ describe('vc-jwt', () => {
     expect(verifiedVp.protected.kid).toBeDefined();
     expect(verifiedVp.payload.nonce).toBe(vpOptions.challenge);
     expect(verifiedVp.payload.aud).toBe(vpOptions.domain);
+  });
+
+  it('should fail if credential is not valid json ld', async () => {
+    expect.assertions(2);
+    key = await JsonWebKey.generate();
+    const signer = signerFactory('did:example:123', key.privateKeyJwk);
+    try {
+      await vcJwt.issue(
+        fixtures.test_vectors.ld.credentialTemplateInvalidMissingProperty,
+        signer
+      );
+    } catch (e) {
+      expect(e.message).toContain('MISSING_PROPERTIES_IN_CONTEXT');
+    }
+
+    try {
+      await vcJwt.issue(
+        fixtures.test_vectors.ld.credentialTemplateInvalidNoContext,
+        signer
+      );
+    } catch (e) {
+      expect(e.message).toContain('jsonld.SyntaxError');
+    }
   });
 });

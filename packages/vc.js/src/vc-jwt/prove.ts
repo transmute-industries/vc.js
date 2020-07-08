@@ -2,12 +2,12 @@ import { IVcJwtPressentationPayload, IVpOptions } from '../types';
 
 import { createPresentation as createVerifiablePresentation } from '../vc-ld/prove';
 
-export const createPresentation = (
+export const createPresentation = async (
   credentials: any[],
   holder: string,
   id?: string
 ) => {
-  const vp = createVerifiablePresentation({
+  const vp = await createVerifiablePresentation({
     verifiableCredential: credentials, //array of <object|string> | object | string.... thanks for that...
     holder,
     id,
