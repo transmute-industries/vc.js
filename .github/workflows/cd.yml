@@ -31,7 +31,8 @@ jobs:
 
       - name: Setup npm profile
         run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          cat .npmrc
           # Gives a clean failure prior to attempting a release if npm token is incorrect
           npm whoami
         env:
@@ -47,5 +48,6 @@ jobs:
         # run: npm run publish:unstable
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: npx lerna publish prerelease --preid unstable --yes --no-push
