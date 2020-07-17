@@ -7,9 +7,9 @@
     "install:ci": "npm install --ignore-scripts && lerna link && lerna bootstrap",
     "lint": "lerna run lint --stream",
     "postinstall": "npm run bootstrap",
-    "publish:stable:patch": "lerna version patch",
-    "publish:stable:minor": "lerna version minor",
-    "publish:stable:major": "lerna version major",
+    "publish:stable:patch": "lerna publish patch",
+    "publish:stable:minor": "lerna publish minor",
+    "publish:stable:major": "lerna publish major",
     "publish:unstable": "lerna publish prerelease --preid unstable --yes",
     "shove": "git add -A; git commit -m 'chore(ci): test'; git push origin master",
     "test": "lerna run test --stream"
