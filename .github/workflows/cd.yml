@@ -45,7 +45,5 @@ jobs:
 
       - name: Publish unstable version with lerna
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: npm run publish:unstable
