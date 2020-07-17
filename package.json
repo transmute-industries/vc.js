@@ -11,9 +11,16 @@
     "shove": "git add -A; git commit -m 'chore(ci): test'; git push origin master",
     "test": "lerna run test --stream"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "npm run lint"
+    }
+  },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
+    "husky": "^4.2.5",
     "lerna": "^3.22.1"
   }
 }

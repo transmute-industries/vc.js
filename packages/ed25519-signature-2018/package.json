@@ -23,12 +23,6 @@
     "lint": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint"
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -38,7 +32,6 @@
   "devDependencies": {
     "@transmute/did-key-ed25519": "^0.1.0",
     "crypto-ld": "^3.7.0",
-    "husky": "^4.2.5",
     "jsonld-signatures": "^5.1.0",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",

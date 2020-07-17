@@ -23,11 +23,6 @@
     "lint": "tsdx lint src --fix",
     "prepare": "tsdx build"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -38,7 +33,6 @@
     "@transmute/json-web-key-2020": "^1.0.0",
     "@transmute/json-web-signature-2020": "^1.0.0",
     "crypto-ld": "^3.7.0",
-    "husky": "^4.2.5",
     "jose": "^1.27.1",
     "jsonld-signatures": "^5.1.0",
     "tsdx": "^0.13.2",
