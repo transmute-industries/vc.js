@@ -37,13 +37,12 @@ jobs:
           npm whoami
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Double check
-        run: npm whoami
 
       - name: Setup git profile
         run: |
           git config user.name "Transmute CD"
           git config user.email "engineers@transmute.industries"
+
       - name: Publish unstable version with lerna
         # run: npm run publish:unstable
         env:
