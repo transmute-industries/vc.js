@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/transmute-industries/vc.js/compare/v0.0.3-unstable.1...v0.0.3) (2020-07-17)
+
+**Note:** Version bump only for package @transmute/linked-data-proof
+
+
+
+
+
 ## 0.0.3-unstable.1 (2020-07-17)
 
 **Note:** Version bump only for package @transmute/linked-data-proof
