@@ -12,6 +12,8 @@
     "test": "lerna run test --stream"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
     "lerna": "^3.22.1"
   }
 }
