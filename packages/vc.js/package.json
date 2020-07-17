@@ -2,7 +2,7 @@
   "name": "@transmute/vc.js",
   "author": "Orie Steele",
   "module": "dist/vc.js.esm.js",
-  "version": "0.1.0",
+  "version": "0.1.1-unstable.0",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -13,18 +13,15 @@
   "engines": {
     "node": ">=10"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint src --fix",
     "prepare": "tsdx build"
-  },
-  "peerDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
   },
   "prettier": {
     "printWidth": 80,
@@ -36,7 +33,6 @@
     "@transmute/json-web-key-2020": "^1.0.0",
     "@transmute/json-web-signature-2020": "^1.0.0",
     "crypto-ld": "^3.7.0",
-    "husky": "^4.2.5",
     "jose": "^1.27.1",
     "jsonld-signatures": "^5.1.0",
     "tsdx": "^0.13.2",
@@ -45,7 +41,7 @@
     "vc-js": "^0.6.4"
   },
   "dependencies": {
-    "@transmute/linked-data-proof": "0.1.0",
+    "@transmute/linked-data-proof": "^0.1.1-unstable.0",
     "credentials-context": "^1.0.0",
     "jsonld": "^2.0.2",
     "jsonld-checker": "^0.1.3",
