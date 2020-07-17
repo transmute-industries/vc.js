@@ -23,16 +23,9 @@ jobs:
       - name: Install
         run: npm install
 
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-          registry-url: 'https://registry.npmjs.org'
-
       - name: Setup npm profile
         run: |
-          # echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-          cat .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
           # Gives a clean failure prior to attempting a release if npm token is incorrect
           npm whoami
         env:
