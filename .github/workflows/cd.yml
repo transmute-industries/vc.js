@@ -44,6 +44,4 @@ jobs:
           git config user.email "engineers@transmute.industries"
 
       - name: Publish unstable version with lerna
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
         run: npm run publish:unstable
