@@ -9,11 +9,15 @@ const vc = require('vc-js');
 
 const { documentLoader } = fixtures;
 
+const firstKey =
+  fixtures.unlockedDids[
+    'did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ'
+  ].publicKey[0];
+
 jest.setTimeout(10 * 1000);
 
 describe('Ed25519Signature2018', () => {
   it('ours with theirs', async () => {
-    const firstKey = fixtures.unlockedDid.publicKey[0];
     const key = new TheirKeyPair(firstKey);
     const suite = new TheirSignature({
       key,
@@ -29,7 +33,6 @@ describe('Ed25519Signature2018', () => {
   });
 
   it('theirs with ours', async () => {
-    const firstKey = fixtures.unlockedDid.publicKey[0];
     const key = new OurKeyPair(firstKey);
     const suite = new OurSignature({
       key,

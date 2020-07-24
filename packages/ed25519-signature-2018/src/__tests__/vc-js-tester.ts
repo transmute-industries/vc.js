@@ -3,12 +3,17 @@ const vc = require('vc-js');
 
 const { documentLoader } = fixtures;
 
+const firstKey =
+  fixtures.unlockedDids[
+    'did:key:z6MktGVfipjBkipFvdE3qGBPQe9heMSuWpgdNVStAfjUsmXV'
+  ].publicKey[0];
+
 const credential = {
   ...fixtures.credential,
-  issuer: { id: fixtures.unlockedDid.id },
+  issuer: { id: firstKey.controller },
   credentialSubject: {
     ...fixtures.credential.credentialSubject,
-    id: fixtures.unlockedDid.id,
+    id: firstKey.controller,
   },
 };
 
