@@ -1,7 +1,8 @@
-const unlockedDID = require('./unlockedDID');
+import { unlockedDids } from './did-docs';
 
 const localOverrides: any = {
-  [unlockedDID.id]: unlockedDID,
+  ...unlockedDids,
+  'https://www.w3.org/ns/did/v1': require('./contexts/did-v1.json'),
   'https://w3id.org/did/v0.11': require('./contexts/did-v0.11.json'),
   'https://www.w3.org/2018/credentials/v1': require('./contexts/credentials-v1.json'),
   'https://www.w3.org/2018/credentials/examples/v1': require('./contexts/examples-v1.json'),
@@ -9,8 +10,6 @@ const localOverrides: any = {
 };
 
 export const documentLoader = async (url: string) => {
-  // console.log(url);
-
   const withoutFragment: string = url.split('#')[0];
 
   if (localOverrides[withoutFragment]) {

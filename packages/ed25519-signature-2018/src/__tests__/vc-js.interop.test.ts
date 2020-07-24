@@ -3,7 +3,10 @@ import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 import { Ed25519Signature2018 } from '..';
 import { runTests } from './vc-js-tester';
 
-const firstKey = fixtures.unlockedDid.publicKey[0];
+const firstKey =
+  fixtures.unlockedDids[
+    'did:key:z6MktGVfipjBkipFvdE3qGBPQe9heMSuWpgdNVStAfjUsmXV'
+  ].publicKey[0];
 const key = new Ed25519KeyPair(firstKey);
 const suite = new Ed25519Signature2018({
   key,

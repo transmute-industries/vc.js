@@ -274,7 +274,23 @@ export class Ed25519Signature2018 {
     let { verifier } = this;
     if (!verifier) {
       const key = await Ed25519KeyPair.from(verificationMethod);
-      verifier = key.verifier();
+      // this suite relies on detached JWS....
+      // so we need to make sure thats the signature format we are verifying.
+      verifier = {
+        verify: async ({ data, signature }: any) => {
+          let verified = false;
+          try {
+            verified = await EdDSA.verifyDetached(
+              signature,
+              data,
+              keyUtils.publicKeyJwkFromPublicKeyBase58(key.publicKeyBase58)
+            );
+          } catch (e) {
+            console.error('An error occurred when verifying signature: ', e);
+          }
+          return verified;
+        },
+      };
     }
     return verifier.verify({ data: verifyData, signature: proof.jws });
   }
