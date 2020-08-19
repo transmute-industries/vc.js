@@ -14,7 +14,11 @@ const isObject = (data: any) => {
   }
   return false;
 };
-export const issue = async (credentialTemplate: any, signer: any) => {
+export const issue = async (
+  credentialTemplate: any,
+  signer: any,
+  documentLoader: any
+) => {
   if (credentialTemplate.issuer === undefined) {
     throw new Error('Verifiable Credentials require an "issuer".');
   }
@@ -32,7 +36,7 @@ export const issue = async (credentialTemplate: any, signer: any) => {
 
   let subject = credentialTemplate.credentialSubject.id;
 
-  await checkCredential(credentialTemplate);
+  await checkCredential(credentialTemplate, documentLoader);
 
   const payload: IVcJwtPayload = {
     iss: issuer,

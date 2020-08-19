@@ -9,10 +9,10 @@ import {
 } from './purposes';
 
 const _verifyCredential = async (options: IVerifyOptions) => {
-  const { credential, checkStatus } = options;
+  const { credential, checkStatus, documentLoader } = options;
 
   // run common credential checks
-  await checkCredential(credential);
+  await checkCredential(credential, documentLoader);
 
   // if credential status is provided, a `checkStatus` function must be given
   if (
