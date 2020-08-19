@@ -10,7 +10,7 @@ export const issue = async (options: IIssueOptions) => {
   if (!credential) {
     throw new TypeError('"credential" parameter is required for issuing.');
   }
-  await checkCredential(credential);
+  await checkCredential(credential, documentLoader);
 
   if (!documentLoader) {
     throw new TypeError('"documentLoader" parameter is required for issuing.');

@@ -9,6 +9,7 @@ export const createPresentation = async ({
   verifiableCredential,
   id,
   holder,
+  documentLoader,
 }: any = {}) => {
   const presentation: any = {
     '@context': [constants.CREDENTIALS_CONTEXT_V1_URL],
@@ -18,7 +19,7 @@ export const createPresentation = async ({
     const credentials = [].concat(verifiableCredential);
     // ensure all credentials are valid
     for (const credential of credentials) {
-      await checkCredential(credential);
+      await checkCredential(credential, documentLoader);
     }
     presentation.verifiableCredential = credentials;
   }

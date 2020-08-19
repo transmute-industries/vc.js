@@ -45,6 +45,7 @@ export const testVendors = (vendors: any[]) => {
           },
           id,
           holder,
+          documentLoader: fixtures.documentLoader,
         });
         // console.log(JSON.stringify(presentationCreated, null, 2));
         expect(presentationCreated).toEqual(

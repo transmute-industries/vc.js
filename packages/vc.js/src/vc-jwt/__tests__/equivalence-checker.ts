@@ -51,7 +51,8 @@ export const testVendors = (vendors: any[]) => {
       it('issue credential', async () => {
         const credentialIssued = await vendor.vcjwt.issue(
           credential,
-          vendor.signer
+          vendor.signer,
+          fixtures.documentLoader
         );
         expect(credentialIssued).toBe(
           fixtures.test_vectors.jwt.credentialIssued
@@ -61,7 +62,8 @@ export const testVendors = (vendors: any[]) => {
       it('verify credential', async () => {
         const credentialVerified = await vendor.vcjwt.verify(
           fixtures.test_vectors.jwt.credentialIssued,
-          vendor.verifier
+          vendor.verifier,
+          fixtures.documentLoader
         );
         expect(credentialVerified).toEqual(
           fixtures.test_vectors.jwt.credentialVerified

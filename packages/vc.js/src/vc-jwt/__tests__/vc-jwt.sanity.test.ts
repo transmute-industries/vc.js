@@ -35,7 +35,8 @@ describe('vc-jwt', () => {
     const verifier = verifyFactory(key.publicKeyJwk);
     const jwsVc = await vcJwt.issue(
       fixtures.test_vectors.ld.credentialTemplate,
-      signer
+      signer,
+      fixtures.documentLoader
     );
     const verifiedVc = vcJwt.verify(jwsVc, verifier);
     expect(verifiedVc.protected.alg).toBe('EdDSA');
@@ -60,7 +61,8 @@ describe('vc-jwt', () => {
     try {
       await vcJwt.issue(
         fixtures.test_vectors.ld.credentialTemplateInvalidMissingProperty,
-        signer
+        signer,
+        fixtures.documentLoader
       );
     } catch (e) {
       expect(e.message).toContain('MISSING_PROPERTIES_IN_CONTEXT');
@@ -69,7 +71,8 @@ describe('vc-jwt', () => {
     try {
       await vcJwt.issue(
         fixtures.test_vectors.ld.credentialTemplateInvalidNoContext,
-        signer
+        signer,
+        fixtures.documentLoader
       );
     } catch (e) {
       expect(e.message).toContain('jsonld.SyntaxError');

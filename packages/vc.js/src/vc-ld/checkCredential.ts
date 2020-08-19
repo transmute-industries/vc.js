@@ -23,13 +23,13 @@ function _getId(obj: any) {
   return obj.id;
 }
 
-export const checkCredential = async (credential: any) => {
+export const checkCredential = async (credential: any, documentLoader: any) => {
   // ensure first context is 'https://www.w3.org/2018/credentials/v1'
   if (typeof credential === 'string') {
     // might be a JWT... in which case... there is no way to validate....
     return;
   }
-  const isValidJsonLd = await check(credential);
+  const isValidJsonLd = await check(credential, documentLoader);
   if (!isValidJsonLd.ok) {
     throw new Error(
       `credential is not valid JSON-LD: ${JSON.stringify(
