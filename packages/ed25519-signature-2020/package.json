@@ -1,0 +1,49 @@
+{
+  "name": "@transmute/ed25519-signature-2020",
+  "author": "Orie Steele",
+  "module": "dist/ed25519-signature-2020.esm.js",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint src --fix",
+    "prepare": "tsdx build"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "@transmute/did-key-ed25519": "^0.2.1-unstable.11",
+    "@transmute/did-key.js": "^0.2.1-unstable.11",
+    "@transmute/jsonld-document-loader": "^0.1.3",
+    "crypto-ld": "^3.7.0",
+    "jsonld-signatures": "^5.1.0",
+    "tsdx": "^0.13.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5",
+    "vc-js": "^0.6.4"
+  },
+  "dependencies": {
+    "@transmute/vc.js": "^0.1.1-unstable.4",
+    "bs58": "^4.0.1",
+    "jsonld": "^3.1.1",
+    "security-context": "^4.0.0"
+  }
+}

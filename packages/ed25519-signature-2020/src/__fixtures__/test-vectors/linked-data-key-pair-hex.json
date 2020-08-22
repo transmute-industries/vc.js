@@ -1,0 +1,7 @@
+{
+  "id": "#z6Mkf5rGMoatrSj1f4CyvuHBeXJELe9RPdzo2PKGNCKVtZxP",
+  "type": "Ed25519KeyPair2020",
+  "controller": "did:key:z6Mkf5rGMoatrSj1f4CyvuHBeXJELe9RPdzo2PKGNCKVtZxP",
+  "publicKeyHex": "095f9a1a595dde755d82786864ad03dfa5a4fbd68832566364e2b65e13cc9e44",
+  "privateKeyHex": "9b937b81322d816cfab9d5a3baacc9b2a5febe4b149f126b3630f93a29527017095f9a1a595dde755d82786864ad03dfa5a4fbd68832566364e2b65e13cc9e44"
+}
