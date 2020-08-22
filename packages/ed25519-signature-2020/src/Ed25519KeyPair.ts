@@ -6,6 +6,8 @@ import { Ed25519PublicKey } from './Ed25519PublicKey';
 
 const keyPairType = 'Ed25519KeyPair2020';
 
+import * as types from './types';
+
 export class Ed25519KeyPair extends Ed25519PublicKey {
   public privateKeyBuffer: Buffer;
 
@@ -32,7 +34,6 @@ export class Ed25519KeyPair extends Ed25519PublicKey {
     }
 
     const publicKeyBase58 = bs58.encode(key.publicKey);
-    const privateKeyBase58 = bs58.encode(key.secretKey);
 
     const did = `did:key:${Ed25519KeyPair.fingerprintFromPublicKey({
       publicKeyBase58,
@@ -43,12 +44,12 @@ export class Ed25519KeyPair extends Ed25519PublicKey {
     return new Ed25519KeyPair({
       id: keyId,
       controller: did,
-      publicKeyBase58,
-      privateKeyBase58,
+      publicKeyBuffer: Buffer.from(key.publicKey),
+      privateKeyBuffer: Buffer.from(key.secretKey),
     });
   }
 
-  static async from(options: any) {
+  static from(options: any) {
     let privateKeyBase58 = options.privateKeyBase58;
     let publicKeyBase58 = options.publicKeyBase58;
 
@@ -76,31 +77,21 @@ export class Ed25519KeyPair extends Ed25519PublicKey {
       );
     }
 
+    const publicKeyBuffer = bs58.decode(publicKeyBase58);
+    const privateKeyBuffer = bs58.decode(privateKeyBase58);
+
     return new Ed25519KeyPair({
       ...options,
-      privateKeyBase58,
-      publicKeyBase58,
+      publicKeyBuffer,
+      privateKeyBuffer,
     });
   }
 
-  constructor(options: any = {}) {
+  constructor(options: types.Ed25519KeyPair2020) {
     super(options);
     this.type = keyPairType;
-    this.privateKeyBuffer = bs58.decode(options.privateKeyBase58);
+    this.privateKeyBuffer = options.privateKeyBuffer;
   }
-
-  // public publicNode({ controller = this.controller }: any = {}) {
-  //   const publicNode: any = {
-  //     id: this.id,
-  //     type: this.type,
-  //   };
-  //   if (controller) {
-  //     publicNode.controller = controller;
-  //   }
-
-  //   this.addEncodedPublicKey(publicNode); // Subclass-specific
-  //   return publicNode;
-  // }
 
   async toLinkedDataKeyPair(options = { encoding: 'base58btc' }) {
     let linkedDataKeyPair: any = {
@@ -150,7 +141,7 @@ export class Ed25519KeyPair extends Ed25519PublicKey {
     if (!this.privateKeyBuffer) {
       return {
         async sign() {
-          throw new Error('No private key to sign with.');
+          throw new Error('Ed25519KeyPair has no private key to sign with.');
         },
       };
     }

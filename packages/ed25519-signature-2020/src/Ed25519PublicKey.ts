@@ -3,18 +3,16 @@ import bs58 from 'bs58';
 import * as ed25519 from '@stablelib/ed25519';
 // import * as keyUtils from './keyUtils';
 
-const keyPairType = 'Ed25519PublicKey2020';
+const keyType = 'Ed25519PublicKey2020';
 const publicKeyVerificationMethodType = 'Ed25519VerificationKey2020';
+
+import * as types from './types';
 
 export class Ed25519PublicKey {
   public id: string;
   public type: string;
   public controller: string;
   public publicKeyBuffer: Buffer;
-
-  static fromVerificationMethod(publicKeyVerificationMethod: any) {
-    return new Ed25519PublicKey(publicKeyVerificationMethod);
-  }
 
   static fingerprintFromPublicKey({ publicKeyBase58 }: any) {
     // ed25519 cryptonyms are multicodec encoded values, specifically:
@@ -40,21 +38,45 @@ export class Ed25519PublicKey {
       const keyId = `#${Ed25519PublicKey.fingerprintFromPublicKey({
         publicKeyBase58,
       })}`;
+      const publicKeyBuffer = bs58.decode(publicKeyBase58) as Buffer;
       return new Ed25519PublicKey({
         id: keyId,
         controller: did,
-        publicKeyBase58,
+        publicKeyBuffer,
       });
     }
 
     throw new Error(`Unsupported Fingerprint Type: ${fingerprint}`);
   }
 
-  constructor(options: any = {}) {
-    this.type = keyPairType;
+  static fromVerificationMethod(
+    publicKeyVerificationMethod: types.Ed25519VerificationKey2020
+  ) {
+    const options = {
+      id: publicKeyVerificationMethod.id,
+      controller: publicKeyVerificationMethod.controller,
+      publicKeyBuffer: bs58.decode(
+        publicKeyVerificationMethod.publicKeyBase58
+      ) as Buffer,
+    };
+    return new Ed25519PublicKey(options);
+  }
+
+  async toVerificationMethod(): Promise<types.Ed25519VerificationKey2020> {
+    const publicKeyVerificationMethod: types.Ed25519VerificationKey2020 = {
+      id: this.id,
+      type: publicKeyVerificationMethodType,
+      controller: this.controller,
+      publicKeyBase58: bs58.encode(this.publicKeyBuffer),
+    };
+    return publicKeyVerificationMethod;
+  }
+
+  constructor(options: types.Ed25519PublicKey2020) {
+    this.type = keyType;
     this.id = options.id;
     this.controller = options.controller;
-    this.publicKeyBuffer = bs58.decode(options.publicKeyBase58);
+    this.publicKeyBuffer = options.publicKeyBuffer;
     if (this.controller && !this.id) {
       this.id = `${this.controller}#${this.fingerprint()}`;
     }
@@ -100,16 +122,6 @@ export class Ed25519PublicKey {
       };
     }
     return { valid };
-  }
-
-  async toVerificationMethod() {
-    const publicKeyVerificationMethod = {
-      id: this.id,
-      type: publicKeyVerificationMethodType,
-      controller: this.controller,
-      publicKeyBase58: bs58.encode(this.publicKeyBuffer),
-    };
-    return publicKeyVerificationMethod;
   }
 
   verifier() {

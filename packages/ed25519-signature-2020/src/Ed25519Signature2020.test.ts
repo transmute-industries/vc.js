@@ -4,7 +4,7 @@ import * as vcjs from '@transmute/vc.js';
 import { Ed25519KeyPair } from './Ed25519KeyPair';
 import { Ed25519Signature2020 } from './Ed25519Signature2020';
 
-const keypair = new Ed25519KeyPair(fixtures.linkedDataKeyPairBase58Btc);
+const keypair = Ed25519KeyPair.from(fixtures.linkedDataKeyPairBase58Btc);
 
 // when suite is contains a key (pair)
 // the key is used to sign and verify
