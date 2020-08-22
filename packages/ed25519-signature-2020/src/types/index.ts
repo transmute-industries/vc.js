@@ -95,13 +95,6 @@ interface StaticEd25519KeyPair2020 {
   from: (linkedDataKeyPair: Ed25519LinkedDataKeyPair2020) => Ed25519KeyPair2020;
 }
 
-/* class decorator */
-function staticImplements<T>() {
-  return <U extends T>(constructor: U) => {
-    constructor;
-  };
-}
-
 interface Ed25519Signature2018Options {
   key?: Ed25519KeyPair2020;
   date?: any;
@@ -164,6 +157,14 @@ interface VerifyProofOptions {
   expansionMap: any;
   compactProof: any;
 }
+
+/* class decorator */
+function staticImplements<T>() {
+  return <U extends T>(constructor: U) => {
+    constructor;
+  };
+}
+
 export {
   VerificationOptions,
   SignerOptions,

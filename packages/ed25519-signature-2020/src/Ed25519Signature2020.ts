@@ -203,18 +203,12 @@ export class Ed25519Signature2020 {
   }: types.GetVerificationMethodOptions) {
     let { verificationMethod } = proof;
 
-    if (!verificationMethod) {
-      // backwards compatibility support for `creator`
-      const { creator } = proof;
-      verificationMethod = creator;
-    }
-
     if (typeof verificationMethod === 'object') {
       verificationMethod = verificationMethod.id;
     }
 
     if (!verificationMethod) {
-      throw new Error('No "verificationMethod" or "creator" found in proof.');
+      throw new Error('No "verificationMethod" found in proof.');
     }
 
     // Note: `expansionMap` is intentionally not passed; we can safely drop
