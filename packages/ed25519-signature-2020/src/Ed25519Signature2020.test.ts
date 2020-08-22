@@ -3,17 +3,21 @@ import * as fixtures from './__fixtures__';
 import * as vcjs from '@transmute/vc.js';
 import { Ed25519KeyPair } from './Ed25519KeyPair';
 import { Ed25519Signature2020 } from './Ed25519Signature2020';
-// let verifiableCredential: any;
-// let verifiablePresentation: any;
 
 const keypair = new Ed25519KeyPair(fixtures.linkedDataKeyPairBase58Btc);
 
-keypair.id = keypair.controller + keypair.id;
-
+// when suite is contains a key (pair)
+// the key is used to sign and verify
 const suite = new Ed25519Signature2020({
   key: keypair,
+  // needed to ensure that the verification method is a proper URI.
+  verificationMethod: keypair.controller + keypair.id,
   date: fixtures.credentialTemplate.issuanceDate,
 });
+
+// when suite is empty, documentloader produces verification methods
+// and they are used to verify
+const emptySuite = new Ed25519Signature2020();
 
 it('issue verifiableCredential', async () => {
   const verifiableCredential = await vcjs.ld.issue({
@@ -27,7 +31,7 @@ it('issue verifiableCredential', async () => {
 it('verify verifiableCredential', async () => {
   const result = await vcjs.ld.verifyCredential({
     credential: fixtures.linkedDataProofVc,
-    suite,
+    suite: emptySuite,
     documentLoader: fixtures.documentLoader,
   });
   expect(result.verified).toBe(true);
@@ -55,7 +59,7 @@ it('verify verifiablePresentation', async () => {
   const result = await vcjs.ld.verify({
     presentation: fixtures.linkedDataProofVp,
     challenge: '123',
-    suite,
+    suite: emptySuite,
     documentLoader: fixtures.documentLoader,
   });
   expect(result.verified).toBe(true);

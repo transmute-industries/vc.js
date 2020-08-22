@@ -3,7 +3,7 @@ import constants from './constants';
 import crypto from 'crypto';
 import bs58 from 'bs58';
 
-import { Ed25519KeyPair } from './Ed25519KeyPair';
+import { Ed25519PublicKey } from './Ed25519PublicKey';
 
 const linkedDataProofType = 'Ed25519Signature2020';
 
@@ -17,6 +17,7 @@ export interface IEd25519Signature2018Options {
   key?: any;
   date?: any;
   signer?: any;
+  verificationMethod?: string;
 }
 
 export class Ed25519Signature2020 {
@@ -28,13 +29,15 @@ export class Ed25519Signature2020 {
   public type: string = linkedDataProofType;
   public signer: any;
   public verifier: any;
+  // consider making verificationMethod required when options are provided.
   public verificationMethod?: string;
   constructor(options: IEd25519Signature2018Options = {}) {
     this.signer = options.signer;
     this.date = options.date;
+    this.verificationMethod = options.verificationMethod;
     if (options.key) {
       this.key = options.key;
-      this.verificationMethod = this.key.id;
+      this.verificationMethod = options.verificationMethod || this.key.id;
       this.signer = {
         sign: async ({ data }: any) => {
           const signer = options.key.signer();
@@ -264,14 +267,16 @@ export class Ed25519Signature2020 {
   async verifySignature({ verifyData, verificationMethod, proof }: any) {
     let { verifier } = this;
     if (!verifier) {
-      const key = await Ed25519KeyPair.from(verificationMethod);
+      const publicKey = await Ed25519PublicKey.fromVerificationMethod(
+        verificationMethod
+      );
       // this suite relies on detached JWS....
       // so we need to make sure thats the signature format we are verifying.
       verifier = {
         verify: async ({ data, signature }: any) => {
           let verified = false;
           try {
-            const verifier = await key.verifier();
+            const verifier = await publicKey.verifier();
             verified = await verifier.verify({
               data,
               signature: bs58.decode(signature),
