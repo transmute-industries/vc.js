@@ -1,2 +1,3 @@
-export * from '@transmute/did-key-ed25519';
-export * from './Ed25519Signature2018';
+export * from './Ed25519PublicKey';
+export * from './Ed25519KeyPair';
+export * from './Ed25519Signature2020';
