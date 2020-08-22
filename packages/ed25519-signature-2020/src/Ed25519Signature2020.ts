@@ -5,6 +5,8 @@ import bs58 from 'bs58';
 
 import { Ed25519KeyPair } from './Ed25519KeyPair';
 
+const linkedDataProofType = 'Ed25519Signature2020';
+
 const sha256 = (data: any) => {
   const h = crypto.createHash('sha256');
   h.update(data);
@@ -23,7 +25,7 @@ export class Ed25519Signature2020 {
   public proof: any;
   public date: any;
   public creator: any;
-  public type: string = 'Ed25519Signature2018';
+  public type: string = linkedDataProofType;
   public signer: any;
   public verifier: any;
   public verificationMethod?: string;
@@ -75,13 +77,13 @@ export class Ed25519Signature2020 {
     });
   }
 
+  // TODO: fix security issue, unknown proof type.
   async canonizeProof(proof: any, { documentLoader, expansionMap }: any) {
-    // `jws`,`signatureValue`,`proofValue` must not be included in the proof
+    // `signatureValue` must not be included in the proof
     // options
+    // TODO: fix security issue, spreading unknown properties into the proof.
     proof = { ...proof };
-    delete proof.jws;
     delete proof.signatureValue;
-    delete proof.proofValue;
     return this.canonize(proof, {
       documentLoader,
       expansionMap,
@@ -127,8 +129,8 @@ export class Ed25519Signature2020 {
       throw new Error('A signer API has not been specified.');
     }
 
-    const detachedJws = await this.signer.sign({ data: verifyData });
-    proof.jws = detachedJws;
+    const signature = await this.signer.sign({ data: verifyData });
+    proof.signatureValue = signature;
     return proof;
   }
 
@@ -281,7 +283,10 @@ export class Ed25519Signature2020 {
         },
       };
     }
-    return verifier.verify({ data: verifyData, signature: proof.jws });
+    return verifier.verify({
+      data: verifyData,
+      signature: proof.signatureValue,
+    });
   }
 
   async verifyProof({

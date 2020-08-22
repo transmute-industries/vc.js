@@ -68,6 +68,14 @@ const linkedDataProofVc = JSON.parse(
     .toString()
 );
 
+const linkedDataProofVp = JSON.parse(
+  fs
+    .readFileSync(
+      path.resolve(__dirname, './test-vectors/linked-data-proof-vp.json')
+    )
+    .toString()
+);
+
 export {
   seed,
   message,
@@ -78,5 +86,6 @@ export {
   linkedDataKeyPairJwk,
   credentialTemplate,
   linkedDataProofVc,
+  linkedDataProofVp,
   documentLoader,
 };

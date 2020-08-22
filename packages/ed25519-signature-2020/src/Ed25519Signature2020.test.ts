@@ -21,7 +21,6 @@ it('issue verifiableCredential', async () => {
     suite,
     documentLoader: fixtures.documentLoader,
   });
-  // console.log(JSON.stringify(verifiableCredential));
   expect(verifiableCredential).toEqual(fixtures.linkedDataProofVc);
 });
 
@@ -31,35 +30,33 @@ it('verify verifiableCredential', async () => {
     suite,
     documentLoader: fixtures.documentLoader,
   });
-  // console.log(JSON.stringify(result, null, 2));
   expect(result.verified).toBe(true);
 });
 
-// it('createPresentation & signPresentation', async () => {
-//   const id = 'ebc6f1c2';
-//   const holder = 'did:ex:12345';
-//   const presentation = await vc.createPresentation({
-//     verifiableCredential,
-//     id,
-//     holder,
-//   });
-//   expect(presentation.type).toEqual(['VerifiablePresentation']);
-//   verifiablePresentation = await vc.signPresentation({
-//     presentation,
-//     suite,
-//     challenge: '123',
-//     documentLoader,
-//   });
-//   expect(verifiablePresentation.proof).toBeDefined();
-// });
+it('createPresentation & signPresentation', async () => {
+  const id = 'ebc6f1c2';
+  const holder = 'did:ex:12345';
+  const presentation = await vcjs.ld.createPresentation({
+    verifiableCredential: fixtures.linkedDataProofVc,
+    id,
+    holder,
+  });
+  expect(presentation.type).toEqual(['VerifiablePresentation']);
+  const verifiablePresentation = await vcjs.ld.signPresentation({
+    presentation,
+    suite,
+    challenge: '123',
+    documentLoader: fixtures.documentLoader,
+  });
+  expect(verifiablePresentation).toEqual(fixtures.linkedDataProofVp);
+});
 
-// it('verify verifiablePresentation', async () => {
-//   // console.log(JSON.stringify(verifiablePresentation, null, 2));
-//   const result = await vc.verify({
-//     presentation: verifiablePresentation,
-//     challenge: '123',
-//     suite,
-//     documentLoader,
-//   });
-//   expect(result.verified).toBe(true);
-// });
+it('verify verifiablePresentation', async () => {
+  const result = await vcjs.ld.verify({
+    presentation: fixtures.linkedDataProofVp,
+    challenge: '123',
+    suite,
+    documentLoader: fixtures.documentLoader,
+  });
+  expect(result.verified).toBe(true);
+});
