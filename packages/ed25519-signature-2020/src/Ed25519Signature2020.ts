@@ -7,68 +7,67 @@ import { Ed25519PublicKey } from './Ed25519PublicKey';
 
 const linkedDataProofType = 'Ed25519Signature2020';
 
-const sha256 = (data: any) => {
+const sha256 = (data: string) => {
   const h = crypto.createHash('sha256');
   h.update(data);
   return h.digest();
 };
 
-export interface IEd25519Signature2018Options {
-  key?: any;
-  date?: any;
-  signer?: any;
-  verificationMethod?: string;
-}
+import * as types from './types';
 
 export class Ed25519Signature2020 {
   public useNativeCanonize: boolean = false;
-  public key: any;
-  public proof: any;
-  public date: any;
-  public creator: any;
   public type: string = linkedDataProofType;
-  public signer: any;
-  public verifier: any;
+  public date?: string;
+  public signer?: types.Signer;
+  public verifier?: types.Verifier;
+  public key?: types.Ed25519KeyPair2020;
   // consider making verificationMethod required when options are provided.
   public verificationMethod?: string;
-  constructor(options: IEd25519Signature2018Options = {}) {
-    this.signer = options.signer;
-    this.date = options.date;
-    this.verificationMethod = options.verificationMethod;
-    if (options.key) {
-      this.key = options.key;
-      this.verificationMethod = options.verificationMethod || this.key.id;
-      this.signer = {
-        sign: async ({ data }: any) => {
-          const signer = options.key.signer();
-          const _signature = await signer.sign({
-            data,
-          });
-          return bs58.encode(_signature);
-        },
-      };
 
-      this.verifier = {
-        verify: async ({ data, signature }: any) => {
-          let verified = false;
-          try {
-            const verifier = options.key.verifier();
-            verified = await verifier.verify({
+  constructor(options: types.Ed25519Signature2018Options) {
+    if (options) {
+      this.signer = options.signer;
+      this.date = options.date;
+      this.verificationMethod = options.verificationMethod;
+      if (options.key) {
+        const signingKeyPair = options.key as types.Ed25519KeyPair2020;
+        this.key = signingKeyPair;
+        this.verificationMethod =
+          options.verificationMethod || signingKeyPair.id;
+
+        this.signer = {
+          sign: async ({ data }: types.SignerOptions) => {
+            const signer = signingKeyPair.signer();
+            const _signature = await signer.sign({
               data,
-              signature: bs58.decode(signature),
             });
-          } catch (e) {
-            console.error('An error occurred when verifying signature: ', e);
-          }
-          return verified;
-        },
-      };
+            return bs58.encode(_signature);
+          },
+        };
+
+        this.verifier = {
+          verify: async ({ data, signature }: types.VerificationOptions) => {
+            let verified = false;
+            try {
+              const verifier = signingKeyPair.verifier();
+              verified = await verifier.verify({
+                data,
+                signature: bs58.decode(signature),
+              });
+            } catch (e) {
+              console.error('An error occurred when verifying signature: ', e);
+            }
+            return verified;
+          },
+        };
+      }
     }
   }
 
   async canonize(
     input: any,
-    { documentLoader, expansionMap, skipExpansion }: any
+    { documentLoader, expansionMap, skipExpansion }: types.CannonizeOptions
   ) {
     return jsonld.canonize(input, {
       algorithm: 'URDNA2015',
@@ -81,7 +80,10 @@ export class Ed25519Signature2020 {
   }
 
   // TODO: fix security issue, unknown proof type.
-  async canonizeProof(proof: any, { documentLoader, expansionMap }: any) {
+  async canonizeProof(
+    proof: any,
+    { documentLoader, expansionMap }: types.CannonizeOptions
+  ) {
     // `signatureValue` must not be included in the proof
     // options
     // TODO: fix security issue, spreading unknown properties into the proof.
@@ -99,8 +101,7 @@ export class Ed25519Signature2020 {
     proof,
     documentLoader,
     expansionMap,
-  }: any) {
-    // concatenate hash of c14n proof options and hash of c14n document
+  }: types.CreateVerifyDataOptions) {
     const c14nProofOptions = await this.canonizeProof(proof, {
       documentLoader,
       expansionMap,
@@ -112,22 +113,15 @@ export class Ed25519Signature2020 {
     return Buffer.concat([sha256(c14nProofOptions), sha256(c14nDocument)]);
   }
 
-  async matchProof({
-    proof,
-  }: // document,
-  // purpose,
-  // documentLoader,
-  // expansionMap,
-  any) {
+  async matchProof({ proof }: types.MatchProofOptions) {
     return proof.type === this.type;
   }
 
-  async updateProof({ proof }: any) {
-    // extending classes may do more
+  async updateProof({ proof }: types.UpdateProofOptions) {
     return proof;
   }
 
-  async sign({ verifyData, proof }: any) {
+  async sign({ verifyData, proof }: types.LinkedDataSigantureSignOptions) {
     if (!(this.signer && typeof this.signer.sign === 'function')) {
       throw new Error('A signer API has not been specified.');
     }
@@ -143,20 +137,9 @@ export class Ed25519Signature2020 {
     documentLoader,
     expansionMap,
     compactProof,
-  }: any) {
+  }: types.CreateProofOptions) {
     // build proof (currently known as `signature options` in spec)
-    let proof;
-    if (this.proof) {
-      // use proof JSON-LD document passed to API
-      proof = await jsonld.compact(this.proof, constants.SECURITY_CONTEXT_URL, {
-        documentLoader,
-        expansionMap,
-        compactToRelative: false,
-      });
-    } else {
-      // create proof JSON-LD document
-      proof = { '@context': constants.SECURITY_CONTEXT_URL };
-    }
+    let proof: any = { '@context': constants.SECURITY_CONTEXT_URL };
 
     // ensure proof type is set
     proof.type = this.type;
@@ -164,7 +147,7 @@ export class Ed25519Signature2020 {
     // set default `now` date if not given in `proof` or `options`
     let date = this.date;
     if (proof.created === undefined && date === undefined) {
-      date = new Date();
+      date = new Date().toISOString();
     }
 
     // ensure date is in string format
@@ -183,12 +166,7 @@ export class Ed25519Signature2020 {
 
     // add any extensions to proof (mostly for legacy support)
     proof = await this.updateProof({
-      document,
       proof,
-      purpose,
-      documentLoader,
-      expansionMap,
-      compactProof,
     });
 
     // allow purpose to update the proof; the `proof` is in the
@@ -213,16 +191,16 @@ export class Ed25519Signature2020 {
     // sign data
     proof = await this.sign({
       verifyData,
-      document,
       proof,
-      documentLoader,
-      expansionMap,
     });
 
     return proof;
   }
 
-  async getVerificationMethod({ proof, documentLoader }: any) {
+  async getVerificationMethod({
+    proof,
+    documentLoader,
+  }: types.GetVerificationMethodOptions) {
     let { verificationMethod } = proof;
 
     if (!verificationMethod) {
@@ -244,7 +222,6 @@ export class Ed25519Signature2020 {
     const framed = await jsonld.frame(
       verificationMethod,
       {
-        // '@context': constants.SECURITY_CONTEXT_URL,
         '@context': constants.SECURITY_CONTEXT_URL,
         '@embed': '@always',
         id: verificationMethod,
@@ -256,6 +233,7 @@ export class Ed25519Signature2020 {
       throw new Error(`Verification method ${verificationMethod} not found.`);
     }
 
+    // Security issue, is the ever implemented like this?
     // ensure verification method has not been revoked
     if (framed.revoked !== undefined) {
       throw new Error('The verification method has been revoked.');
@@ -264,7 +242,11 @@ export class Ed25519Signature2020 {
     return framed;
   }
 
-  async verifySignature({ verifyData, verificationMethod, proof }: any) {
+  async verifySignature({
+    verifyData,
+    verificationMethod,
+    proof,
+  }: types.VerifySignatureOptions) {
     let { verifier } = this;
     if (!verifier) {
       const publicKey = await Ed25519PublicKey.fromVerificationMethod(
@@ -273,7 +255,7 @@ export class Ed25519Signature2020 {
       // this suite relies on detached JWS....
       // so we need to make sure thats the signature format we are verifying.
       verifier = {
-        verify: async ({ data, signature }: any) => {
+        verify: async ({ data, signature }: types.VerificationOptions) => {
           let verified = false;
           try {
             const verifier = await publicKey.verifier();
@@ -301,7 +283,7 @@ export class Ed25519Signature2020 {
     documentLoader,
     expansionMap,
     compactProof,
-  }: any) {
+  }: types.VerifyProofOptions) {
     try {
       // create data to verify
       const verifyData = await this.createVerifyData({
@@ -315,19 +297,14 @@ export class Ed25519Signature2020 {
       // fetch verification method
       const verificationMethod = await this.getVerificationMethod({
         proof,
-        document,
         documentLoader,
-        expansionMap,
       });
 
       // verify signature on data
       const verified = await this.verifySignature({
         verifyData,
         verificationMethod,
-        document,
         proof,
-        documentLoader,
-        expansionMap,
       });
       if (!verified) {
         throw new Error('Invalid signature.');
@@ -341,8 +318,6 @@ export class Ed25519Signature2020 {
         documentLoader,
         expansionMap,
       });
-
-      // console.log(purposeResult);
 
       if (!purposeResult.valid) {
         throw purposeResult.error;

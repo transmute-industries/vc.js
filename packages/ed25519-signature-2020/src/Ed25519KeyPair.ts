@@ -1,17 +1,19 @@
 import bs58 from 'bs58';
 
 import * as ed25519 from '@stablelib/ed25519';
-import * as keyUtils from './keyUtils';
-import { Ed25519PublicKey } from './Ed25519PublicKey';
 
-const keyPairType = 'Ed25519KeyPair2020';
+import { Ed25519PublicKey } from './Ed25519PublicKey';
 
 import * as types from './types';
 
-export class Ed25519KeyPair extends Ed25519PublicKey {
+const keyPairType = 'Ed25519LinkedDataKeyPair2020';
+
+@types.staticImplements<types.StaticEd25519KeyPair2020>()
+export class Ed25519KeyPair extends Ed25519PublicKey
+  implements types.Ed25519KeyPair2020 {
   public privateKeyBuffer: Buffer;
 
-  static async generate(options: any = {}) {
+  static async generate(options: types.LinkedDataKeyPairGenerateoptions) {
     let key;
     if (options.secureRandom) {
       key = ed25519.generateKeyPair({
@@ -24,7 +26,7 @@ export class Ed25519KeyPair extends Ed25519PublicKey {
       key = ed25519.generateKeyPair({
         isAvailable: true,
         randomBytes: () => {
-          return Buffer.from(options.seed, 'hex');
+          return options.seed as Buffer;
         },
       });
     }
@@ -49,37 +51,11 @@ export class Ed25519KeyPair extends Ed25519PublicKey {
     });
   }
 
-  static from(options: any) {
-    let privateKeyBase58 = options.privateKeyBase58;
-    let publicKeyBase58 = options.publicKeyBase58;
-
-    if (options.privateKeyHex) {
-      privateKeyBase58 = keyUtils.privateKeyBase58FromPrivateKeyHex(
-        options.privateKeyHex
-      );
-    }
-
-    if (options.publicKeyHex) {
-      publicKeyBase58 = keyUtils.publicKeyBase58FromPublicKeyHex(
-        options.publicKeyHex
-      );
-    }
-
-    if (options.privateKeyJwk) {
-      privateKeyBase58 = keyUtils.privateKeyBase58FromPrivateKeyJwk(
-        options.privateKeyJwk
-      );
-    }
-
-    if (options.publicKeyJwk) {
-      publicKeyBase58 = keyUtils.publicKeyBase58FromPublicKeyJwk(
-        options.publicKeyJwk
-      );
-    }
-
+  // consider renaming to fromLinkedDataBase58BtcKeyPair
+  static from(options: types.Ed25519LinkedDataKeyPair2020) {
+    let { privateKeyBase58, publicKeyBase58 } = options;
     const publicKeyBuffer = bs58.decode(publicKeyBase58);
     const privateKeyBuffer = bs58.decode(privateKeyBase58);
-
     return new Ed25519KeyPair({
       ...options,
       publicKeyBuffer,
@@ -87,67 +63,34 @@ export class Ed25519KeyPair extends Ed25519PublicKey {
     });
   }
 
-  constructor(options: types.Ed25519KeyPair2020) {
+  constructor(options: types.Ed25519KeyPair2020ConstructorArgs) {
     super(options);
     this.type = keyPairType;
     this.privateKeyBuffer = options.privateKeyBuffer;
   }
 
-  async toLinkedDataKeyPair(options = { encoding: 'base58btc' }) {
-    let linkedDataKeyPair: any = {
+  toLinkedDataKeyPair(): types.Ed25519LinkedDataKeyPair2020 {
+    const linkedDataKeyPair: types.Ed25519LinkedDataKeyPair2020 = {
       id: this.id,
       type: keyPairType,
       controller: this.controller,
+      publicKeyBase58: bs58.encode(this.publicKeyBuffer),
+      privateKeyBase58: bs58.encode(this.privateKeyBuffer),
     };
-
-    if (options.encoding === 'base58btc') {
-      linkedDataKeyPair = {
-        ...linkedDataKeyPair,
-        publicKeyBase58: bs58.encode(this.publicKeyBuffer),
-        privateKeyBase58: bs58.encode(this.privateKeyBuffer),
-      };
-    }
-
-    if (options.encoding === 'hex') {
-      linkedDataKeyPair = {
-        ...linkedDataKeyPair,
-        publicKeyHex: keyUtils.publicKeyHexFromPublicKeyBase58(
-          bs58.encode(this.publicKeyBuffer)
-        ),
-        privateKeyHex: keyUtils.privateKeyHexFromPrivateKeyBase58(
-          bs58.encode(this.privateKeyBuffer)
-        ),
-      };
-    }
-
-    if (options.encoding === 'jwk') {
-      linkedDataKeyPair = {
-        ...linkedDataKeyPair,
-        publicKeyJwk: keyUtils.publicKeyJwkFromPublicKeyBase58(
-          bs58.encode(this.publicKeyBuffer)
-        ),
-        privateKeyJwk: keyUtils.privateKeyJwkFromPrivateKeyBase58(
-          bs58.encode(this.privateKeyBuffer)
-        ),
-      };
-      delete linkedDataKeyPair.publicKeyJwk.kid;
-      delete linkedDataKeyPair.privateKeyJwk.kid;
-    }
-
     return linkedDataKeyPair;
   }
 
   signer() {
     if (!this.privateKeyBuffer) {
       return {
-        async sign() {
+        async sign(_options: types.SignerOptions) {
           throw new Error('Ed25519KeyPair has no private key to sign with.');
         },
       };
     }
     let { privateKeyBuffer } = this;
     return {
-      async sign({ data }: any) {
+      async sign({ data }: types.SignerOptions) {
         const signatureUInt8Array = ed25519.sign(privateKeyBuffer, data);
         return signatureUInt8Array;
       },

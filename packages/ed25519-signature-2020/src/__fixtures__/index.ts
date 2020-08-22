@@ -33,22 +33,6 @@ const linkedDataKeyPairBase58Btc = JSON.parse(
     .toString()
 );
 
-const linkedDataKeyPairHex = JSON.parse(
-  fs
-    .readFileSync(
-      path.resolve(__dirname, './test-vectors/linked-data-key-pair-hex.json')
-    )
-    .toString()
-);
-
-const linkedDataKeyPairJwk = JSON.parse(
-  fs
-    .readFileSync(
-      path.resolve(__dirname, './test-vectors/linked-data-key-pair-jwk.json')
-    )
-    .toString()
-);
-
 const credentialTemplate = JSON.parse(
   fs
     .readFileSync(
@@ -82,8 +66,6 @@ export {
   signature,
   publicKeyVerificationMethod,
   linkedDataKeyPairBase58Btc,
-  linkedDataKeyPairHex,
-  linkedDataKeyPairJwk,
   credentialTemplate,
   linkedDataProofVc,
   linkedDataProofVp,

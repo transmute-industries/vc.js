@@ -1,20 +1,22 @@
 import bs58 from 'bs58';
 
 import * as ed25519 from '@stablelib/ed25519';
-// import * as keyUtils from './keyUtils';
 
 const keyType = 'Ed25519PublicKey2020';
 const publicKeyVerificationMethodType = 'Ed25519VerificationKey2020';
 
 import * as types from './types';
 
-export class Ed25519PublicKey {
+@types.staticImplements<types.StaticEd25519LinkedDataPublicKey2020>()
+export class Ed25519PublicKey implements types.Ed25519LinkedDataPublicKey2020 {
   public id: string;
   public type: string;
   public controller: string;
   public publicKeyBuffer: Buffer;
 
-  static fingerprintFromPublicKey({ publicKeyBase58 }: any) {
+  static fingerprintFromPublicKey({
+    publicKeyBase58,
+  }: types.Base58EncodedPublicKey) {
     // ed25519 cryptonyms are multicodec encoded values, specifically:
     // (multicodec ed25519-pub 0xed01 + key bytes)
     const pubkeyBytes = bs58.decode(publicKeyBase58);
@@ -26,7 +28,7 @@ export class Ed25519PublicKey {
     return `z${bs58.encode(buffer)}`;
   }
 
-  static fromFingerprint({ fingerprint }: any) {
+  static fromFingerprint({ fingerprint }: types.Fingerprint) {
     // skip leading `z` that indicates base58 encoding
     const buffer = bs58.decode(fingerprint.substr(1));
     // https://github.com/multiformats/multicodec/blob/master/table.csv#L81
@@ -89,7 +91,7 @@ export class Ed25519PublicKey {
     });
   }
 
-  verifyFingerprint(fingerprint: any) {
+  verifyFingerprint(fingerprint: string): types.FingerprintVerification {
     // fingerprint should have `z` prefix indicating
     // that it's multi-base encoded
     if (!(typeof fingerprint === 'string' && fingerprint[0] === 'z')) {
@@ -127,14 +129,14 @@ export class Ed25519PublicKey {
   verifier() {
     if (!this.publicKeyBuffer) {
       return {
-        async verify() {
+        async verify(_options: types.VerificationOptions) {
           throw new Error('No public key to verify with.');
         },
       };
     }
     let { publicKeyBuffer } = this;
     return {
-      async verify({ data, signature }: any) {
+      async verify({ data, signature }: types.VerificationOptions) {
         let verified = false;
         try {
           verified = ed25519.verify(publicKeyBuffer, data, signature);

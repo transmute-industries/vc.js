@@ -10,7 +10,7 @@ describe('generate', () => {
       },
     });
     expect(key.id).toBeDefined();
-    expect(key.type).toBe('Ed25519KeyPair2020');
+    expect(key.type).toBe('Ed25519LinkedDataKeyPair2020');
     expect(key.controller).toBeDefined();
     expect(key.publicKeyBuffer).toBeDefined();
     expect(key.privateKeyBuffer).toBeDefined();
@@ -21,7 +21,7 @@ describe('generate', () => {
       seed: Buffer.from(fixtures.seed, 'hex'),
     });
     expect(key.id).toBe('#z6Mkf5rGMoatrSj1f4CyvuHBeXJELe9RPdzo2PKGNCKVtZxP');
-    expect(key.type).toBe('Ed25519KeyPair2020');
+    expect(key.type).toBe('Ed25519LinkedDataKeyPair2020');
     expect(key.controller).toBe(
       'did:key:z6Mkf5rGMoatrSj1f4CyvuHBeXJELe9RPdzo2PKGNCKVtZxP'
     );
@@ -45,41 +45,15 @@ describe('toLinkedDataKeyPair', () => {
     const key = await Ed25519KeyPair.generate({
       seed: Buffer.from(fixtures.seed, 'hex'),
     });
-    const keypair = await key.toLinkedDataKeyPair({ encoding: 'base58btc' });
+    const keypair = await key.toLinkedDataKeyPair();
     expect(keypair).toEqual(fixtures.linkedDataKeyPairBase58Btc);
-  });
-  it('hex - should produce a linked data key pair', async () => {
-    const key = await Ed25519KeyPair.generate({
-      seed: Buffer.from(fixtures.seed, 'hex'),
-    });
-    const keypair = await key.toLinkedDataKeyPair({ encoding: 'hex' });
-    expect(keypair).toEqual(fixtures.linkedDataKeyPairHex);
-  });
-  it('jwk - should produce a linked data key pair', async () => {
-    const key = await Ed25519KeyPair.generate({
-      seed: Buffer.from(fixtures.seed, 'hex'),
-    });
-    const keypair = await key.toLinkedDataKeyPair({ encoding: 'jwk' });
-    expect(keypair).toEqual(fixtures.linkedDataKeyPairJwk);
   });
 });
 
 describe('from', () => {
-  it('from base58', async () => {
+  it('from base58btc', async () => {
     const key = await Ed25519KeyPair.from(fixtures.linkedDataKeyPairBase58Btc);
-    const keypair = await key.toLinkedDataKeyPair({ encoding: 'base58btc' });
-    expect(keypair).toEqual(fixtures.linkedDataKeyPairBase58Btc);
-  });
-
-  it('from hex', async () => {
-    const key = await Ed25519KeyPair.from(fixtures.linkedDataKeyPairHex);
-    const keypair = await key.toLinkedDataKeyPair({ encoding: 'base58btc' });
-    expect(keypair).toEqual(fixtures.linkedDataKeyPairBase58Btc);
-  });
-
-  it('from jwk', async () => {
-    const key = await Ed25519KeyPair.from(fixtures.linkedDataKeyPairJwk);
-    const keypair = await key.toLinkedDataKeyPair({ encoding: 'base58btc' });
+    const keypair = await key.toLinkedDataKeyPair();
     expect(keypair).toEqual(fixtures.linkedDataKeyPairBase58Btc);
   });
 });
