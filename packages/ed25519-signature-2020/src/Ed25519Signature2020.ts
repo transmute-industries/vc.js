@@ -5,6 +5,8 @@ import bs58 from 'bs58';
 
 import { Ed25519PublicKey } from './Ed25519PublicKey';
 
+import * as types from './types';
+
 const linkedDataProofType = 'Ed25519Signature2020';
 
 const sha256 = (data: string) => {
@@ -12,8 +14,6 @@ const sha256 = (data: string) => {
   h.update(data);
   return h.digest();
 };
-
-import * as types from './types';
 
 export class Ed25519Signature2020 {
   public useNativeCanonize: boolean = false;

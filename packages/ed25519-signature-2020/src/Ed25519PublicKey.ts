@@ -2,10 +2,10 @@ import bs58 from 'bs58';
 
 import * as ed25519 from '@stablelib/ed25519';
 
+import * as types from './types';
+
 const keyType = 'Ed25519PublicKey2020';
 const publicKeyVerificationMethodType = 'Ed25519VerificationKey2020';
-
-import * as types from './types';
 
 @types.staticImplements<types.StaticEd25519LinkedDataPublicKey2020>()
 export class Ed25519PublicKey implements types.Ed25519LinkedDataPublicKey2020 {
