@@ -14,20 +14,20 @@
           "id": "@id",
           "type": "@type",
 
-          "sec": "https://w3id.org/security#",
-          "xsd": "http://www.w3.org/2001/XMLSchema#",
-
-          "challenge": "sec:challenge",
+          "challenge": "https://w3id.org/security#challenge",
           "created": {
             "@id": "http://purl.org/dc/terms/created",
-            "@type": "xsd:dateTime"
+            "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
           },
-          "domain": "sec:domain",
-          "expires": { "@id": "sec:expiration", "@type": "xsd:dateTime" },
-          "signatureValue": "sec:signatureValue",
-          "nonce": "sec:nonce",
+          "domain": "https://w3id.org/security#domain",
+          "expires": {
+            "@id": "https://w3id.org/security#expiration",
+            "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+          },
+          "signatureValue": "https://w3id.org/security#signatureValue",
+          "nonce": "https://w3id.org/security#nonce",
           "proofPurpose": {
-            "@id": "sec:proofPurpose",
+            "@id": "https://w3id.org/security#proofPurpose",
             "@type": "@vocab",
             "@context": {
               "@version": 1.1,
@@ -36,23 +36,24 @@
               "id": "@id",
               "type": "@type",
 
-              "sec": "https://w3id.org/security#",
-
               "assertionMethod": {
-                "@id": "sec:assertionMethod",
+                "@id": "https://w3id.org/security#assertionMethod",
                 "@type": "@id",
                 "@container": "@set"
               },
               "authentication": {
-                "@id": "sec:authenticationMethod",
+                "@id": "https://w3id.org/security#authenticationMethod",
                 "@type": "@id",
                 "@container": "@set"
               }
             }
           },
-          "proofValue": "sec:proofValue",
+          "proofValue": {
+            "@id": "https://w3id.org/security#proofValue",
+            "@type": "https://w3id.org/security#multibase"
+          },
           "verificationMethod": {
-            "@id": "sec:verificationMethod",
+            "@id": "https://w3id.org/security#verificationMethod",
             "@type": "@id"
           }
         }
