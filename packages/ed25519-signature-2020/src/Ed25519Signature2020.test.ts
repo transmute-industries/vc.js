@@ -19,7 +19,7 @@ const suite = new Ed25519Signature2020({
 // and they are used to verify
 const emptySuite = new Ed25519Signature2020({});
 
-it.only('issue verifiableCredential', async () => {
+it('issue verifiableCredential', async () => {
   const verifiableCredential = await vcjs.ld.issue({
     credential: { ...fixtures.credentialTemplate },
     suite,
@@ -37,15 +37,21 @@ it('verify verifiableCredential', async () => {
   expect(result.verified).toBe(true);
 });
 
-it('createPresentation & signPresentation', async () => {
+it('createPresentation', async () => {
   const id = 'ebc6f1c2';
   const holder = 'did:ex:12345';
   const presentation = await vcjs.ld.createPresentation({
     verifiableCredential: fixtures.linkedDataProofVc,
     id,
     holder,
+    documentLoader: fixtures.documentLoader,
   });
   expect(presentation.type).toEqual(['VerifiablePresentation']);
+});
+
+it('signPresentation', async () => {
+  const presentation = { ...fixtures.linkedDataProofVp };
+  delete presentation.proof;
   const verifiablePresentation = await vcjs.ld.signPresentation({
     presentation,
     suite,

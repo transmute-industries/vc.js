@@ -11,23 +11,21 @@ const documentLoader = async (
   // console.log(uri);
   const _uri = uri.split('#')[0];
 
-  // hack https://w3id.org/security/v2
-  // to show what the future will look like.
-  if (_uri === 'https://w3id.org/security/v2') {
+  // needed because v3 is not published
+  if (_uri === 'https://w3id.org/security/v3') {
     return {
       contextUrl: null,
-      documentUrl: 'https://w3id.org/security/v2',
-      document: require('./mutated_contexts/sec-v2.json'),
+      documentUrl: 'https://w3id.org/security/v3',
+      document: require('./unstable_contexts/sec-v3.json'),
     };
   }
 
-  // hack https://www.w3.org/2018/credentials/v1
-  // to show what the future will look like.
-  if (_uri === 'https://www.w3.org/2018/credentials/v1') {
+  // needed because v2 is not published
+  if (_uri === 'https://www.w3.org/2018/credentials/v2') {
     return {
       contextUrl: null,
-      documentUrl: 'https://www.w3.org/2018/credentials/v1',
-      document: require('./mutated_contexts/cred-v1.json'),
+      documentUrl: 'https://www.w3.org/2018/credentials/v2',
+      document: require('./unstable_contexts/cred-v2.json'),
     };
   }
 
