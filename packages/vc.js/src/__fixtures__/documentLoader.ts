@@ -4,10 +4,12 @@ const localOverrides: any = {
   [unlockedDidDocument.id]: unlockedDidDocument,
   'https://w3id.org/did/v0.11': require('./contexts/did-v0.11.json'),
   'https://www.w3.org/2018/credentials/v1': require('./contexts/credentials-v1.json'),
+  'https://www.w3.org/2018/credentials/v2': require('./contexts/credentials-v1.json'),
   'https://www.w3.org/2018/credentials/examples/v1': require('./contexts/examples-v1.json'),
   'https://www.w3.org/ns/odrl.jsonld': require('./contexts/odrl.json'),
   'https://w3id.org/security/v1': require('./contexts/security-v1.json'),
   'https://w3id.org/security/v2': require('./contexts/security-v2.json'),
+  'https://w3id.org/security/v3': require('./contexts/security-v2.json'),
 };
 
 export const documentLoader = async (url: string) => {
