@@ -19,7 +19,7 @@ const suite = new Ed25519Signature2020({
 // and they are used to verify
 const emptySuite = new Ed25519Signature2020({});
 
-it('issue verifiableCredential', async () => {
+it.only('issue verifiableCredential', async () => {
   const verifiableCredential = await vcjs.ld.issue({
     credential: { ...fixtures.credentialTemplate },
     suite,

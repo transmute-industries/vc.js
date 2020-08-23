@@ -140,7 +140,7 @@
         "proofValue": {
           "@id": "sec:proofValue",
           "@type": "sec:multibase"
-        }
+        },
         "verificationMethod": {
           "@id": "sec:verificationMethod",
           "@type": "@id"
