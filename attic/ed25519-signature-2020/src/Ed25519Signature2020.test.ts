@@ -42,17 +42,17 @@ it('issue verifiableCredential', async () => {
   expect(verifiableCredential).toEqual(vc_0);
 });
 
-// it('verify verifiableCredential', async () => {
-//   const result = await vcjs.ld.verifyCredential({
-//     credential: { ...vc_0 },
-//     suite: new Ed25519Signature2020({}),
-//     documentLoader: (uri: string) => {
-//       return documentLoader(uri);
-//     },
-//   });
-//   console.log(JSON.stringify(result, null, 2));
-//   expect(result.verified).toBe(true);
-// });
+it('verify verifiableCredential', async () => {
+  const result = await vcjs.ld.verifyCredential({
+    credential: { ...vc_0 },
+    suite: new Ed25519Signature2020({}),
+    documentLoader: (uri: string) => {
+      return documentLoader(uri);
+    },
+  });
+  console.log(JSON.stringify(result, null, 2));
+  expect(result.verified).toBe(true);
+});
 
 // it('createPresentation', async () => {
 //   const id = 'ebc6f1c2';

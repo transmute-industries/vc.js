@@ -2,6 +2,7 @@
   "issuer_0": {
     "@context": [
       "https://www.w3.org/ns/did/v1",
+      "https://example.com/credentials/latest",
       {
         "@base": "https://example.com/issuer/123"
       }
@@ -10,13 +11,9 @@
     "publicKey": [
       {
         "id": "#ovsDKYBjFemIy8DVhc-w2LSi8CvXMw2AYDzHj04yxkc",
-        "type": "JsonWebKey2020",
+        "type": "Ed25519VerificationKey2020",
         "controller": "https://example.com/issuer/123",
-        "publicKeyJwk": {
-          "kty": "OKP",
-          "crv": "Ed25519",
-          "x": "CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ"
-        }
+        "publicKeyBase58": "dbDmZLTWuEYYZNHFLKLoRkEX4sZykkSLNQLXvMUyMB1"
       }
     ],
     "assertionMethod": ["#ovsDKYBjFemIy8DVhc-w2LSi8CvXMw2AYDzHj04yxkc"]

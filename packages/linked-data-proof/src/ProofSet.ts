@@ -118,22 +118,23 @@ export class ProofSet {
   private _getProofs = async ({
     document,
     legacy,
-    documentLoader,
-    expansionMap,
+    // documentLoader,
+    // expansionMap,
     compactProof,
   }: any) => {
     // handle document preprocessing to find proofs
     const proofProperty = legacy ? 'signature' : 'proof';
     let proofSet;
-    if (compactProof) {
-      // if we must compact the proof(s) then we must first compact the input
-      // document to find the proof(s)
-      document = await jsonld.compact(
-        document,
-        constants.SECURITY_CONTEXT_URL,
-        { documentLoader, expansionMap, compactToRelative: false }
-      );
-    }
+    console.log(compactProof);
+    // if (compactProof) {
+    //   // if we must compact the proof(s) then we must first compact the input
+    //   // document to find the proof(s)
+    //   document = await jsonld.compact(
+    //     document,
+    //     constants.SECURITY_CONTEXT_URL,
+    //     { documentLoader, expansionMap, compactToRelative: false }
+    //   );
+    // }
     proofSet = jsonld.getValues(document, proofProperty);
     delete document[proofProperty];
 
@@ -269,6 +270,7 @@ export class ProofSet {
         document = { ...document };
       }
 
+      console.log(document);
       // get proofs from document
       const { proofSet, document: doc } = await this._getProofs({
         document,
@@ -277,6 +279,9 @@ export class ProofSet {
         expansionMap,
         compactProof,
       });
+
+      console.log(proofSet);
+
       document = doc;
 
       // verify proofs
@@ -289,6 +294,7 @@ export class ProofSet {
         expansionMap,
         compactProof,
       });
+      console.log(results);
       if (results.length === 0) {
         throw new Error(
           'Could not verify any proofs; no proofs matched the required ' +

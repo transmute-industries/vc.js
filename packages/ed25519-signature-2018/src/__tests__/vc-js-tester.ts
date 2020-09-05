@@ -1,6 +1,6 @@
 import * as fixtures from '../__fixtures__';
 const vc = require('vc-js');
-
+import { Ed25519Signature2018 } from '..';
 const { documentLoader } = fixtures;
 
 const firstKey =
@@ -33,7 +33,7 @@ export const runTests = (suite: any) => {
   it('verify verifiableCredential', async () => {
     const result = await vc.verifyCredential({
       credential: verifiableCredential,
-      suite,
+      suite: new Ed25519Signature2018({}),
       documentLoader,
     });
     expect(result.verified).toBe(true);
@@ -62,7 +62,7 @@ export const runTests = (suite: any) => {
     const result = await vc.verify({
       presentation: verifiablePresentation,
       challenge: '123',
-      suite,
+      suite: new Ed25519Signature2018({}),
       documentLoader,
     });
     expect(result.verified).toBe(true);

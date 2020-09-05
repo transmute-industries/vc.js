@@ -216,12 +216,14 @@ export class Ed25519Signature2020 {
     const framed = await jsonld.frame(
       verificationMethod,
       {
-        '@context': constants.SECURITY_CONTEXT_URL,
+        '@context': 'https://example.com/credentials/latest',
         '@embed': '@always',
         id: verificationMethod,
       },
       { documentLoader, compactToRelative: false }
     );
+
+    console.log(framed);
 
     if (!framed) {
       throw new Error(`Verification method ${verificationMethod} not found.`);
@@ -233,7 +235,9 @@ export class Ed25519Signature2020 {
       throw new Error('The verification method has been revoked.');
     }
 
-    return framed;
+    console.log(verificationMethod, framed);
+
+    return framed['@graph'][1];
   }
 
   async verifySignature({
@@ -243,6 +247,7 @@ export class Ed25519Signature2020 {
   }: types.VerifySignatureOptions) {
     let { verifier } = this;
     if (!verifier) {
+      console.log(verificationMethod);
       const publicKey = await Ed25519PublicKey.fromVerificationMethod(
         verificationMethod
       );
