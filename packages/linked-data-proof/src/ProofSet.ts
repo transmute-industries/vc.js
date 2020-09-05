@@ -14,8 +14,8 @@ export class ProofSet {
       purpose,
       documentLoader,
       expansionMap,
-      compactProof = true,
-    }: IProofSetAddOptions = { compactProof: true }
+      compactProof = false,
+    }: IProofSetAddOptions = { compactProof: false }
   ) {
     if (!suite) {
       throw new TypeError('"options.suite" is required.');
