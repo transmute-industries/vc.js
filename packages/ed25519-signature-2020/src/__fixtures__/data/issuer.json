@@ -1,0 +1,24 @@
+{
+  "issuer_0": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      {
+        "@base": "https://example.com/issuer/123"
+      }
+    ],
+    "id": "https://example.com/issuer/123",
+    "publicKey": [
+      {
+        "id": "#ovsDKYBjFemIy8DVhc-w2LSi8CvXMw2AYDzHj04yxkc",
+        "type": "JsonWebKey2020",
+        "controller": "https://example.com/issuer/123",
+        "publicKeyJwk": {
+          "kty": "OKP",
+          "crv": "Ed25519",
+          "x": "CV-aGlld3nVdgnhoZK0D36Wk-9aIMlZjZOK2XhPMnkQ"
+        }
+      }
+    ],
+    "assertionMethod": ["#ovsDKYBjFemIy8DVhc-w2LSi8CvXMw2AYDzHj04yxkc"]
+  }
+}

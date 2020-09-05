@@ -165,7 +165,27 @@ function staticImplements<T>() {
   };
 }
 
+interface VcTemplate {
+  '@context': string[];
+  id: string;
+  type: string[];
+  issuer: {
+    id: string;
+  };
+  issuanceDate: string;
+  credentialSubject: {
+    id: string;
+    degree: {
+      type: string;
+      name: string;
+    };
+  };
+}
+
+export * from './Issuer';
+
 export {
+  VcTemplate,
   VerificationOptions,
   SignerOptions,
   Signer,
