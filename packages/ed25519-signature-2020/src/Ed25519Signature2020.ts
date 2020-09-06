@@ -103,10 +103,7 @@ export class Ed25519Signature2020 {
     documentLoader,
     expansionMap,
   }: any) {
-    if (
-      proof.type ===
-      'https://example.com/credentials/latest#Ed25519Signature2020'
-    ) {
+    if (proof.type === 'sec:Ed25519Signature2020') {
       proof.type = 'Ed25519Signature2020';
     }
     // concatenate hash of c14n proof options and hash of c14n document
@@ -128,10 +125,7 @@ export class Ed25519Signature2020 {
   // documentLoader,
   // expansionMap,
   any) {
-    return (
-      proof.type === this.type ||
-      proof.type === 'https://example.com/credentials/latest#' + this.type
-    );
+    return proof.type === this.type || proof.type === 'sec:' + this.type;
   }
 
   async updateProof({ proof }: any) {
