@@ -2,7 +2,9 @@ import jsonld from 'jsonld';
 import constants from './constants';
 import crypto from 'crypto';
 
-import { Ed25519KeyPair, EdDSA, keyUtils } from '@transmute/did-key-ed25519';
+import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
+
+import { encode, decode } from './utils';
 
 const sha256 = (data: any) => {
   const h = crypto.createHash('sha256');
@@ -11,14 +13,14 @@ const sha256 = (data: any) => {
 };
 
 export interface Ed25519Signature2020Options {
-  key?: any;
+  key?: Ed25519KeyPair;
   date?: any;
   signer?: any;
 }
 
 export class Ed25519Signature2020 {
   public useNativeCanonize: boolean = false;
-  public key: any;
+  public key?: Ed25519KeyPair;
   public proof: any;
   public date: any;
   public creator: any;
@@ -34,20 +36,9 @@ export class Ed25519Signature2020 {
       this.verificationMethod = this.key.id;
       this.signer = {
         sign: async ({ data }: any) => {
-          const header = {
-            alg: 'EdDSA',
-            b64: false,
-            crit: ['b64'],
-          };
-          const payload = Buffer.from(data);
-          const _jws = await EdDSA.signDetached(
-            payload,
-            keyUtils.privateKeyJwkFromPrivateKeyBase58(
-              this.key.privateKeyBase58
-            ),
-            header
-          );
-          return _jws;
+          const signer = (this.key as Ed25519KeyPair).signer();
+          const signature = await signer.sign({ data });
+          return encode(Buffer.from(signature));
         },
       };
 
@@ -55,11 +46,11 @@ export class Ed25519Signature2020 {
         verify: async ({ data, signature }: any) => {
           let verified = false;
           try {
-            verified = await EdDSA.verifyDetached(
-              signature,
+            const verifier = (this.key as any).verifier();
+            verified = await verifier.verify({
               data,
-              keyUtils.publicKeyJwkFromPublicKeyBase58(this.key.publicKeyBase58)
-            );
+              signature: decode(signature),
+            });
           } catch (e) {
             console.error('An error occurred when verifying signature: ', e);
           }
@@ -249,11 +240,11 @@ export class Ed25519Signature2020 {
         verify: async ({ data, signature }: any) => {
           let verified = false;
           try {
-            verified = await EdDSA.verifyDetached(
-              signature,
+            const verifier = (key as any).verifier();
+            verified = await verifier.verify({
               data,
-              keyUtils.publicKeyJwkFromPublicKeyBase58(key.publicKeyBase58)
-            );
+              signature: decode(signature),
+            });
           } catch (e) {
             console.error('An error occurred when verifying signature: ', e);
           }
