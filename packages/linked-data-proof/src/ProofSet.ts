@@ -125,6 +125,7 @@ export class ProofSet {
     // handle document preprocessing to find proofs
     const proofProperty = legacy ? 'signature' : 'proof';
     let proofSet;
+
     if (compactProof) {
       // if we must compact the proof(s) then we must first compact the input
       // document to find the proof(s)
@@ -277,6 +278,9 @@ export class ProofSet {
         expansionMap,
         compactProof,
       });
+
+      console.log(proofSet);
+
       document = doc;
 
       // verify proofs
@@ -289,6 +293,7 @@ export class ProofSet {
         expansionMap,
         compactProof,
       });
+      console.log(results);
       if (results.length === 0) {
         throw new Error(
           'Could not verify any proofs; no proofs matched the required ' +

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ed25519 Signature 2020</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <!--
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c-common"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+        specStatus: "CG-DRAFT",
+
+        // the specification's short name, as in http://www.w3.org/TR/short-name/
+        shortName: "lds-ed25519-2020",
+
+        // if you wish the publication date to be other than today, set this
+        // publishDate:  "2009-08-06",
+
+        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+        // and its maturity status
+        // previousPublishDate:  "1977-03-15",
+        // previousMaturity:  "WD",
+
+        // if there a publicly available Editor's Draft, this is the link
+        edDraftURI: "https://w3c-ccg.github.io/lds-ed25519-2020/",
+
+        // if this is a LCWD, uncomment and set the end of its review period
+        // lcEnd: "2009-08-05",
+
+        // if you want to have extra CSS, append them to this list
+        // it is recommended that the respec.css stylesheet be kept
+        //extraCSS:             ["spec.css", "prettify.css"],
+
+        // editors, add as many as you like
+        // only "name" is required
+        editors: [
+          {
+            name: "Orie Steele",
+            url: "https://transmute.industries",
+            company: "Transmute",
+            companyURL: "https://transmute.industries",
+          },
+        ],
+
+        // extend the bibliography entries
+        //localBiblio: webpayments.localBiblio,
+
+        wg: "Credentials Community Group",
+        // URI of the public WG page
+        wgURI: "https://www.w3.org/community/credentials/",
+        // name (with the @w3c.org) of the public mailing to which comments are due
+        wgPublicList: "public-credentials",
+        // URI of the patent status for this WG, for Rec-track documents
+        // !!!! IMPORTANT !!!!
+        // This is important for Rec-track documents, do not copy a patent URI from a random
+        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+        // Team Contact.
+        wgPatentURI: "https://www.w3.org/community/about/agreements/cla/",
+
+        otherLinks: [
+          {
+            key: "Source control",
+            data: [
+              {
+                value: "https://github.com/w3c-ccg/lds-ed25519-2020/",
+                href: "https://github.com/w3c-ccg/lds-ed25519-2020/",
+              },
+            ],
+          },
+          {
+            key: "Issue Tracker",
+            data: [
+              {
+                value: "https://github.com/w3c-ccg/lds-ed25519-2020/issues/",
+                href: "https://github.com/w3c-ccg/lds-ed25519-2020/issues/",
+              },
+            ],
+          },
+        ],
+
+        // URI of the patent status for this WG, for Rec-track documents
+        // !!!! IMPORTANT !!!!
+        // This is important for Rec-track documents, do not copy a patent URI from a random
+        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+        // Team Contact.
+        // wgPatentURI:  "",
+        maxTocLevel: 4,
+        /*preProcess: [ webpayments.preProcess ],
+        alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
+        */
+        localBiblio: {
+          "RDF-DATASET-NORMALIZATION": {
+            title: "RDF Dataset Normalization 1.0",
+            href: "http://json-ld.github.io/normalization/spec/",
+            authors: ["David Longley", "Manu Sporny"],
+            status: "CGDRAFT",
+            publisher: "JSON-LD Community Group",
+          },
+          "RDF-CONCEPTS": {
+            title: "RDF 1.1 Concepts and Abstract Syntax",
+            href: "https://www.w3.org/TR/rdf11-concepts/",
+            authors: ["Richard Cyganiak", "David Wood", "Markus Lanthaler"],
+            status: "Recommendation",
+            publisher: "W3C",
+          },
+          "RDF-N-Quads": {
+            title: "RDF 1.1 N-Quads",
+            href: "http://json-ld.github.io/normalization/spec/",
+            authors: ["Gaven Carothers"],
+            status: "Recommendation",
+          },
+          "SECURITY-VOCABULARY": {
+            title: "Security Linked Data Vocabulary",
+            href: "https://w3id.org/security",
+            authors: ["Manu Sporny", "David Longley"],
+            status: "CGDRAFT",
+            publisher: "Web Payments Community Group",
+          },
+          "LD-PROOFS": {
+            title: "Linked Data Proofs 1.0",
+            href: "https://w3c-ccg.github.io/ld-proofs",
+            authors: ["David Longley", "Manu Sporny"],
+            status: "CGDRAFT",
+            publisher: "Web Payments Community Group",
+          },
+          ISO_8601: {
+            title: "ISO_8601",
+            href: "https://en.wikipedia.org/wiki/ISO_8601",
+          },
+          MULTIBASE: {
+            title: "Multibase",
+            href: "https://tools.ietf.org/html/draft-multiformats-multibase-01",
+          },
+        },
+      };
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      .color-text {
+        font-weight: bold;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm li {
+        margin: 0.5em 0;
+      }
+      ol.algorithm li:before {
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ") ";
+      }
+    </style>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        This specification describes an Ed25519 Signature Suite created in 2020
+        for the Linked Data Proof specification. The Signature Suite utilizes
+        Ed25519 EdDSA signatures and multibase.
+      </p>
+    </section>
+
+    <section id="sotd">
+      <p>
+        This is an experimental specification and is undergoing regular
+        revisions. It is not fit for production deployment.
+      </p>
+    </section>
+
+    <section>
+      <h2>Introduction</h2>
+      <p>
+        This specification defines a cryptographic suite for the purpose of
+        creating, verifying proofs for Ed25519 EdDSA signatures in conformance
+        with the Linked Data Proofs [[LD-PROOFS]] specification.
+      </p>
+      <p>
+        In general the suites uses the RDF Dataset Normalization Algorithm
+        [[RDF-DATASET-NORMALIZATION]] to transform an input document into its
+        canonical form. The cannonical representation is then hashed and signed
+        with a detached signature algorithm.
+      </p>
+    </section>
+
+    <section id="terminology">
+      <h2>Terminology</h2>
+      <p>
+        The following terms are used to describe concepts involved in the
+        generation and verification of the Linked Data Proof
+        <a>signature suite</a>.
+      </p>
+
+      <dl>
+        <dt><dfn>signature suite</dfn></dt>
+        <dd>
+          A specified set of cryptographic primitives typically consisting of a
+          canonicalization algorithm, a message digest algorithm, and a
+          signature algorithm that are bundled together by cryptographers for
+          developers for the purposes of safety and convenience.
+        </dd>
+        <dt><dfn>canonicalization algorithm</dfn></dt>
+        <dd>
+          An algorithm that takes an input document that has more than one
+          possible representation and always transforms it into a
+          <a>canonical form</a>. This process is sometimes also called
+          normalization.
+        </dd>
+        <dt>
+          <dfn data-lt="message digest algorithm | message digest algorithms"
+            >message digest algorithm</dfn
+          >
+        </dt>
+        <dd>
+          An algorithm that takes a message, prefferably in some
+          <a>canonical form</a> and produces a cryptographic output called a
+          digest that is often many orders of magnitude smaller than the input
+          message. These algorithms are often 1) very fast, 2) non-reversible,
+          3) cause the output to change significantly when even one bit of the
+          input message changes, and 4) make it infeasible to find two different
+          inputs for the same output.
+        </dd>
+        <dt><dfn>canonical form</dfn></dt>
+        <dd>
+          The output of applying a <a>canonicalization algorithm</a> to an input
+          document.
+        </dd>
+        <dt><dfn>signature algorithm</dfn></dt>
+        <dd>
+          An algorithm that takes an input message and produces an output value
+          where the receiver of the message can mathematically verify that the
+          message has not been modified in transit and came from someone
+          possessing a particular secret.
+        </dd>
+        <dt>
+          <dfn data-lt="linked data document|linked data documents"
+            >linked data document</dfn
+          >
+        </dt>
+        <dd>A document comprised of linked data.</dd>
+        <dt>
+          <dfn data-lt="linked data proof|linked data proofs"
+            >linked data proof</dfn
+          >
+        </dt>
+        <dd>
+          A
+          <a
+            href="https://w3c-ccg.github.io/ld-proofs/#dfn-linked-data-proof"
+            class="externalDFN"
+            >linked data proof</a
+          >
+          which is a set of attributes that represent a linked data digital
+          proof and the parameters required to verify it as defined by
+          [[RDF-N-Quads]].
+        </dd>
+        <dt><dfn>linked data proof document</dfn></dt>
+        <dd>
+          A <a>linked data document</a> featuring one or more
+          <a>linked data proofs</a>.
+        </dd>
+
+        <dt><dfn>Ed25519VerificationKey2020</dfn></dt>
+        <dd>
+          The <code>type</code> of the verification method for the signature
+          suite <a>Ed25519Signature2020</a>.
+        </dd>
+
+        <dt><dfn>Ed25519Signature2020</dfn></dt>
+        <dd>
+          The <code>type</code> of the linked data proof for the signature suite
+          <a>Ed25519Signature2020</a>.
+        </dd>
+      </dl>
+    </section>
+
+    <section id="suite-definition">
+      <h2>Suite Definition</h2>
+
+      <p>
+        The Ed25519 <a>signature suite</a> 2020 MUST be used in conjunction with
+        the signing and verification algorithms in the Linked Data Proofs
+        [[LD-PROOFS]] specification. The suite consists of the following
+        algorithms:
+      </p>
+
+      <table class="simple">
+        <thead>
+          <th>Parameter</th>
+          <th>Value</th>
+          <th>Specification</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a>canonicalization algorithm</a></td>
+            <td>https://w3id.org/security#URDNA2015</td>
+            <td>[[RDF-DATASET-NORMALIZATION]]</td>
+          </tr>
+          <tr>
+            <td><a>message digest algorithm</a></td>
+            <td>SHA-256</td>
+            <td>[[RFC4634]]</td>
+          </tr>
+          <tr>
+            <td><a>signature algorithm</a></td>
+            <td>Edwards-Curve Digital Signature Algorithm (EdDSA)</td>
+            <td>[[RFC8032]]</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <section>
+        <h2>Verification Method</h2>
+        <p>
+          The cryptographic material used to verify a linked data proof is
+          called the verification method.
+        </p>
+
+        <p>
+          This suite relies on public key material represented using
+          [[MULTIBASE]].
+        </p>
+
+        <p>
+          This suite supports public key use for both digital signature
+          verification, according to [[RFC8032]].
+        </p>
+
+        <p>
+          This suite MAY be used to verify linked data proofs produced by key
+          material in any representation that can be converted to
+          <code>publicKeyMultibase</code>>, however it is RECOMMENDED that this
+          suite be used with verification method's of type
+          <a>Ed25519VerificationKey2020</a>.
+        </p>
+
+        <section>
+          <h3>Ed25519VerificationKey2020</h3>
+
+          <p>
+            The <code>id</code> of the verification method SHOULD be the JWK
+            thumbprint calculated from the
+            <code>publicKeyMultibase</code> property value according to
+            [[MULTIBASE]].
+          </p>
+          <p>
+            The <code>type</code> of the verification method SHOULD be
+            <a>Ed25519VerificationKey2020</a>.
+          </p>
+          <p>
+            The <code>controller</code> of the verification method SHOULD be a
+            URI.
+          </p>
+
+          <p>
+            The <code>publicKeyMultibase</code> property of the verification
+            method SHOULD be a public key formatted according to [[MULTIBASE]].
+          </p>
+
+          <p class="advisement">
+            Be careful not to accidentally publish a representation of a private
+            key.
+          </p>
+
+          <pre class="example">
+            {
+              "id": "https://example.com/issuer/123#key-0",
+              "type": "Ed25519VerificationKey2020",
+              "controller": "https://example.com/issuer/123",
+              "publicKeyMultibase": "zgo4sNiXwJTbeJDWZLXVn9uTnRwgFHFxcgDePvEC9TiTYgRpG7q1p5s7yRAic"
+            }
+          </pre>
+
+          <pre class="example" title="Example in DID Document.">
+            {
+              "@context": [
+                "https://www.w3.org/ns/did/v1",
+                {
+                  "@base": "did:example:123"
+                }
+              ],
+              "id": "did:example:123",
+              "publicKey": [
+                {
+                  "id": "#key-0",
+                  "type": "Ed25519VerificationKey2020",
+                  "controller": "did:example:123",
+                  "publicKeyMultibase": "zgo4sNiXwJTbeJDWZLXVn9uTnRwgFHFxcgDePvEC9TiTYgRpG7q1p5s7yRAic"
+                }
+              ],
+              "authentication": [
+                "#key-0"
+              ],
+              "assertionMethod": [
+                "#key-0"
+              ],
+              "capabilityDelegation": [
+                "#key-0"
+              ],
+              "capabilityInvocation": [
+                "#key-0"
+              ]
+            }
+          </pre>
+        </section>
+      </section>
+
+      <section>
+        <h2>Proof Representation</h2>
+        <p>
+          The cryptographic material used to represent a linked data proof is
+          called the proof type.
+        </p>
+
+        <p>
+          This suite relies on detached digital signatures represented using
+          [[MULTIBASE]].
+        </p>
+
+        <section>
+          <h3>Ed25519 Signature 2020</h3>
+
+          <p>
+            The <code>verificationMethod</code> property of the proof SHOULD be
+            a URI. Dereferencing the <code>verificationMethod</code> SHOULD
+            result in an object of <code>type</code>
+            <a>Ed25519VerificationKey2020</a>.
+          </p>
+          <p>
+            The <code>type</code> property of the proof MUST be
+            <a>Ed25519Signature2020</a>.
+          </p>
+          <p>
+            The <code>created</code> property of the proof MUST be an
+            [[ISO_8601]] formated date string.
+          </p>
+          <p>
+            The <code>proofPurpose</code> property of the proof MUST be a
+            string, and SHOULD match the verification relationship expressed by
+            the verification method <code>controller</code>.
+          </p>
+          <p>
+            The <code>signature</code> property of the proof MUST be a detached
+            EdDSA produced according to [[RFC8032]], encoded according to
+            [[MULTIBASE]].
+          </p>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <h2>Test Vectors</h2>
+      <p>
+        The following test vectors are provided to assist with implementers.
+      </p>
+
+      <pre class="example">
+        {
+          "seed_0": "9b937b81322d816cfab9d5a3baacc9b2a5febe4b149f126b3630f93a29527017"
+        }        
+      </pre>
+      <pre class="example">
+        {
+          "keypair_0": {
+            "id": "https://example.com/issuer/123#key-0",
+            "type": "Ed25519VerificationKey2018",
+            "controller": "https://example.com/issuer/123",
+            "publicKeyBase58": "dbDmZLTWuEYYZNHFLKLoRkEX4sZykkSLNQLXvMUyMB1",
+            "privateKeyBase58": "47QbyJEDqmHTzsdg8xzqXD8gqKuLufYRrKWTmB7eAaWHG2EAsQ2GUyqRqWWYT15dGuag52Sf3j4hs2mu7w52mgps"
+          },
+          "keypair_1": {
+            "id": "https://example.com/issuer/123#key-0",
+            "type": "Ed25519KeyPair2020",
+            "controller": "https://example.com/issuer/123",
+            "publicKeyMultibase": "zgo4sNiXwJTbeJDWZLXVn9uTnRwgFHFxcgDePvEC9TiTYgRpG7q1p5s7yRAic",
+            "privateKeyMultibase": "z5LgFTdoZ3hjXbijBYC8qBEEZ1oibq1AKVeSeuw84zgYzUNY2rXKT8xLU41XpMN124wVr26axAPBPiNnR9dvyY7KA9QCmTrxT6yCCJxfS6U5iEBhzfbWqPSazGJ"
+          }
+        }              
+      </pre>
+
+      <pre class="example">
+        {
+          "issuer_0": {
+            "@context": [
+              "https://www.w3.org/ns/did/v1",
+              "https://example.com/credentials/latest",
+              {
+                "@base": "https://example.com/issuer/123"
+              }
+            ],
+            "id": "https://example.com/issuer/123",
+            "publicKey": [
+              {
+                "id": "#key-0",
+                "type": "Ed25519VerificationKey2020",
+                "controller": "https://example.com/issuer/123",
+                "publicKeyMultibase": "zgo4sNiXwJTbeJDWZLXVn9uTnRwgFHFxcgDePvEC9TiTYgRpG7q1p5s7yRAic"
+              }
+            ],
+            "assertionMethod": ["#key-0"],
+            "authentication": ["#key-0"]
+          }
+        }
+        
+      </pre>
+
+      <pre class="example">
+        {
+          "vc_template_0": {
+            "@context": [
+              "https://www.w3.org/2018/credentials/v1",
+              "https://www.w3.org/2018/credentials/examples/v1",
+              "https://example.com/credentials/latest"
+            ],
+            "id": "http://example.gov/credentials/3732",
+            "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+            "issuer": "https://example.com/issuer/123",
+            "issuanceDate": "2020-03-10T04:24:12.164Z",
+            "credentialSubject": {
+              "id": "did:example:456",
+              "degree": {
+                "type": "BachelorDegree",
+                "name": "Bachelor of Science and Arts"
+              }
+            }
+          },
+          "vc_0": {
+            "@context": [
+              "https://www.w3.org/2018/credentials/v1",
+              "https://www.w3.org/2018/credentials/examples/v1",
+              "https://example.com/credentials/latest"
+            ],
+            "id": "http://example.gov/credentials/3732",
+            "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+            "issuer": "https://example.com/issuer/123",
+            "issuanceDate": "2020-03-10T04:24:12.164Z",
+            "credentialSubject": {
+              "id": "did:example:456",
+              "degree": {
+                "type": "BachelorDegree",
+                "name": "Bachelor of Science and Arts"
+              }
+            },
+            "proof": {
+              "type": "Ed25519Signature2020",
+              "created": "2019-12-11T03:50:55Z",
+              "signature": "z5LgmVhjjPTEzGL31k2eEde8bdr4MAzxQv87AmdHt5Usd1uGK1Ae88NoZ5jgTLKS6sJCZnQNthR3qAbyRMxvkqSkss2WtyKLa9rqhJmR6YEBkiuUtxawhrscWXm",
+              "proofPurpose": "assertionMethod",
+              "verificationMethod": "https://example.com/issuer/123#key-0"
+            }
+          },
+          "vp_0": {
+            "@context": [
+              "https://www.w3.org/2018/credentials/v1",
+              "https://example.com/credentials/latest"
+            ],
+            "type": ["VerifiablePresentation"],
+            "verifiableCredential": [
+              {
+                "@context": [
+                  "https://www.w3.org/2018/credentials/v1",
+                  "https://www.w3.org/2018/credentials/examples/v1",
+                  "https://example.com/credentials/latest"
+                ],
+                "id": "http://example.gov/credentials/3732",
+                "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+                "issuer": "https://example.com/issuer/123",
+                "issuanceDate": "2020-03-10T04:24:12.164Z",
+                "credentialSubject": {
+                  "id": "did:example:456",
+                  "degree": {
+                    "type": "BachelorDegree",
+                    "name": "Bachelor of Science and Arts"
+                  }
+                },
+                "proof": {
+                  "type": "Ed25519Signature2020",
+                  "created": "2019-12-11T03:50:55Z",
+                  "signature": "z5LgmVhjjPTEzGL31k2eEde8bdr4MAzxQv87AmdHt5Usd1uGK1Ae88NoZ5jgTLKS6sJCZnQNthR3qAbyRMxvkqSkss2WtyKLa9rqhJmR6YEBkiuUtxawhrscWXm",
+                  "proofPurpose": "assertionMethod",
+                  "verificationMethod": "https://example.com/issuer/123#key-0"
+                }
+              }
+            ],
+            "id": "ebc6f1c2",
+            "holder": "did:ex:12345",
+            "proof": {
+              "type": "Ed25519Signature2020",
+              "created": "2019-12-11T03:50:55Z",
+              "verificationMethod": "https://example.com/issuer/123#key-0",
+              "proofPurpose": "authentication",
+              "challenge": "123",
+              "signature": "z5LgJQhEvrLoNqXSbBzFR6mqmBnUefxX6dBjn2A4FYmmtB3EcWC41RmvHARgHwZyuMkR9xMbMCY7Ch4iRr9R8o1JffWY63FRfX3em8f3avb1CU6FaxiMjZdNegc"
+            }
+          }
+        }
+        
+      </pre>
+    </section>
+
+    <section id="conformance">
+      <p>
+        A <dfn>conforming document</dfn> is any concrete expression of the data
+        model that complies with the normative statements in this specification.
+        Specifically, all relevant normative statements in Sections
+        <a href="#terminology"></a> and <a href="#suite-definition"></a>
+        of this document MUST be enforced.
+      </p>
+
+      <p>
+        A <dfn>conforming processor</dfn> is any algorithm realized as software
+        and/or hardware that generates or consumes a <a>conforming document</a>.
+        Conforming processors MUST produce errors when non-conforming documents
+        are consumed.
+      </p>
+      <p>
+        This document also contains examples that contain JSON and JSON-LD
+        content. Some of these examples contain characters that are invalid
+        JSON, such as inline comments (<code>//</code>) and the use of ellipsis
+        (<code>...</code>) to denote information that adds little value to the
+        example. Implementers are cautioned to remove this content if they
+        desire to use the information as valid JSON or JSON-LD.
+      </p>
+    </section>
+
+    <section>
+      <h2>Security Considerations</h2>
+      <p>
+        The following section describes security considerations that developers
+        implementing this specification should be aware of in order to create
+        secure software.
+      </p>
+
+      <p class="note">
+        This specification relies on URDNA2015, please review
+        [[RDF-DATASET-NORMALIZATION]].
+      </p>
+
+      <p class="note">
+        This specification relies on [[MULTIBASE]] and [[RFC8032]].
+      </p>
+
+      <div class="issue">
+        TODO: We need to add a complete list of security considerations.
+      </div>
+    </section>
+  </body>
+</html>

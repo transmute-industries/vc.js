@@ -10,7 +10,9 @@ export const sign = async (
     documentLoader,
     expansionMap,
     compactProof,
-  }: ISignOptions = {}
+  }: ISignOptions = {
+    compactProof: true,
+  }
 ) => {
   try {
     return await new ProofSet().add(document, {

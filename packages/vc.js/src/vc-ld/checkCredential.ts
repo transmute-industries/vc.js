@@ -1,6 +1,6 @@
 import jsonld from 'jsonld';
 import { check } from 'jsonld-checker';
-import constants from './constants';
+// import constants from './constants';
 
 const dateRegex = new RegExp(
   '^(\\d{4})-(0[1-9]|1[0-2])-' +
@@ -39,12 +39,13 @@ export const checkCredential = async (credential: any, documentLoader: any) => {
       )}`
     );
   }
-  if (credential['@context'][0] !== constants.CREDENTIALS_CONTEXT_V1_URL) {
-    throw new Error(
-      `"${constants.CREDENTIALS_CONTEXT_V1_URL}" needs to be first in the ` +
-        'list of contexts.'
-    );
-  }
+
+  // if (credential['@context'][0] !== constants.CREDENTIALS_CONTEXT_V1_URL) {
+  //   throw new Error(
+  //     `"${constants.CREDENTIALS_CONTEXT_V1_URL}" needs to be first in the ` +
+  //       'list of contexts.'
+  //   );
+  // }
 
   // check type presence and cardinality
   if (!credential['type']) {
