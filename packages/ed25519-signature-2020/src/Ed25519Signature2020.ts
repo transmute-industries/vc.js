@@ -84,8 +84,6 @@ export class Ed25519Signature2020 {
   }
 
   async canonizeProof(proof: any, { documentLoader, expansionMap }: any) {
-    // `jws`,`signatureValue`,`proofValue` must not be included in the proof
-    // options
     proof = { ...proof };
     delete proof.jws;
     delete proof.signatureValue;
@@ -103,7 +101,6 @@ export class Ed25519Signature2020 {
     documentLoader,
     expansionMap,
   }: any) {
-    // concatenate hash of c14n proof options and hash of c14n document
     const c14nProofOptions = await this.canonizeProof(proof, {
       documentLoader,
       expansionMap,
@@ -115,19 +112,8 @@ export class Ed25519Signature2020 {
     return Buffer.concat([sha256(c14nProofOptions), sha256(c14nDocument)]);
   }
 
-  async matchProof({
-    proof,
-  }: // document,
-  // purpose,
-  // documentLoader,
-  // expansionMap,
-  any) {
+  async matchProof({ proof }: any) {
     return proof.type === 'sec:Ed25519Signature2020';
-  }
-
-  async updateProof({ proof }: any) {
-    // extending classes may do more
-    return proof;
   }
 
   async sign({ verifyData, proof }: any) {
@@ -188,16 +174,6 @@ export class Ed25519Signature2020 {
       proof.creator = this.creator;
     }
 
-    // add any extensions to proof (mostly for legacy support)
-    proof = await this.updateProof({
-      document,
-      proof,
-      purpose,
-      documentLoader,
-      expansionMap,
-      compactProof,
-    });
-
     // allow purpose to update the proof; the `proof` is in the
     // SECURITY_CONTEXT_URL `@context` -- therefore the `purpose` must
     // ensure any added fields are also represented in that same `@context`
@@ -232,12 +208,6 @@ export class Ed25519Signature2020 {
   async getVerificationMethod({ proof, documentLoader }: any) {
     let { verificationMethod } = proof;
 
-    if (!verificationMethod) {
-      // backwards compatibility support for `creator`
-      const { creator } = proof;
-      verificationMethod = creator;
-    }
-
     if (typeof verificationMethod === 'object') {
       verificationMethod = verificationMethod.id;
     }
@@ -248,43 +218,25 @@ export class Ed25519Signature2020 {
 
     // Note: `expansionMap` is intentionally not passed; we can safely drop
     // properties here and must allow for it
-    const framed = await jsonld.frame(
+    const result = await jsonld.frame(
       verificationMethod,
       {
-        // '@context': constants.SECURITY_CONTEXT_URL,
         '@context': constants.SECURITY_CONTEXT_URL,
         '@embed': '@always',
         id: verificationMethod,
       },
-      { documentLoader, compactToRelative: false }
+      {
+        documentLoader,
+        compactToRelative: false,
+        expandContext: constants.SECURITY_CONTEXT_URL,
+      }
     );
 
-    // const result = await jsonld.frame(
-    //   verificationMethod,
-    //   {
-    //     '@context': constants.SECURITY_CONTEXT_URL,
-    //     '@embed': '@always',
-    //     id: verificationMethod,
-    //   },
-    //   {
-    //     documentLoader,
-    //     compactToRelative: false,
-    //     expandContext: constants.SECURITY_CONTEXT_URL,
-    //   }
-    // );
-
-    // console.log(result, framed);
-
-    if (!framed) {
+    if (!result || !result.controller) {
       throw new Error(`Verification method ${verificationMethod} not found.`);
     }
 
-    // ensure verification method has not been revoked
-    if (framed.revoked !== undefined) {
-      throw new Error('The verification method has been revoked.');
-    }
-
-    return framed;
+    return result;
   }
 
   async verifySignature({ verifyData, verificationMethod, proof }: any) {
@@ -359,8 +311,6 @@ export class Ed25519Signature2020 {
         documentLoader,
         expansionMap,
       });
-
-      // console.log(purposeResult);
 
       if (!purposeResult.valid) {
         throw purposeResult.error;
