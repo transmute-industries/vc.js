@@ -118,23 +118,23 @@ export class ProofSet {
   private _getProofs = async ({
     document,
     legacy,
-    // documentLoader,
-    // expansionMap,
+    documentLoader,
+    expansionMap,
     compactProof,
   }: any) => {
     // handle document preprocessing to find proofs
     const proofProperty = legacy ? 'signature' : 'proof';
     let proofSet;
-    console.log(compactProof);
-    // if (compactProof) {
-    //   // if we must compact the proof(s) then we must first compact the input
-    //   // document to find the proof(s)
-    //   document = await jsonld.compact(
-    //     document,
-    //     constants.SECURITY_CONTEXT_URL,
-    //     { documentLoader, expansionMap, compactToRelative: false }
-    //   );
-    // }
+
+    if (compactProof) {
+      // if we must compact the proof(s) then we must first compact the input
+      // document to find the proof(s)
+      document = await jsonld.compact(
+        document,
+        constants.SECURITY_CONTEXT_URL,
+        { documentLoader, expansionMap, compactToRelative: false }
+      );
+    }
     proofSet = jsonld.getValues(document, proofProperty);
     delete document[proofProperty];
 
