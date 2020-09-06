@@ -8,7 +8,6 @@ export const runTests = (suite: any) => {
     const verifiableCredential = await vc.issue({
       credential: { ...fixtures.vc_template_0 },
       suite,
-      compactProof: false,
       documentLoader,
     });
     expect(verifiableCredential).toEqual(fixtures.vc_0);
@@ -17,10 +16,10 @@ export const runTests = (suite: any) => {
   it('verify verifiableCredential', async () => {
     const result = await vc.verifyCredential({
       credential: { ...fixtures.vc_0 },
-      compactProof: true,
       suite: new Ed25519Signature2020({}),
       documentLoader,
     });
+    // console.log(JSON.stringify(result, null, 2));
     expect(result.verified).toBe(true);
   });
 
@@ -36,7 +35,6 @@ export const runTests = (suite: any) => {
     presentation['@context'].push('https://example.com/credentials/latest');
     const verifiablePresentation = await vc.signPresentation({
       presentation,
-      compactProof: false,
       suite,
       challenge: '123',
       documentLoader,
@@ -49,7 +47,6 @@ export const runTests = (suite: any) => {
     const result = await vc.verify({
       presentation: { ...fixtures.vp_0 },
       challenge: '123',
-      // compactProof: true,
       suite: new Ed25519Signature2020({}),
       documentLoader,
     });

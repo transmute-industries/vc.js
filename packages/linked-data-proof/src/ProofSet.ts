@@ -14,8 +14,8 @@ export class ProofSet {
       purpose,
       documentLoader,
       expansionMap,
-      compactProof = false,
-    }: IProofSetAddOptions = { compactProof: false }
+      compactProof = true,
+    }: IProofSetAddOptions = { compactProof: true }
   ) {
     if (!suite) {
       throw new TypeError('"options.suite" is required.');
@@ -270,7 +270,6 @@ export class ProofSet {
         document = { ...document };
       }
 
-      console.log(document);
       // get proofs from document
       const { proofSet, document: doc } = await this._getProofs({
         document,

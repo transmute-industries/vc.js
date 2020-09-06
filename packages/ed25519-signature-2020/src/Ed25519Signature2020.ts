@@ -22,7 +22,7 @@ export class Ed25519Signature2020 {
   public proof: any;
   public date: any;
   public creator: any;
-  public type: string = 'Ed25519Signature2020';
+  public type: string = 'https://w3id.org/security#Ed25519Signature2020';
   public signer: any;
   public verifier: any;
   public verificationMethod?: string;
@@ -103,9 +103,6 @@ export class Ed25519Signature2020 {
     documentLoader,
     expansionMap,
   }: any) {
-    if (proof.type === 'sec:Ed25519Signature2020') {
-      proof.type = 'Ed25519Signature2020';
-    }
     // concatenate hash of c14n proof options and hash of c14n document
     const c14nProofOptions = await this.canonizeProof(proof, {
       documentLoader,
@@ -125,7 +122,7 @@ export class Ed25519Signature2020 {
   // documentLoader,
   // expansionMap,
   any) {
-    return proof.type === this.type || proof.type === 'sec:' + this.type;
+    return proof.type === 'sec:Ed25519Signature2020';
   }
 
   async updateProof({ proof }: any) {
@@ -140,6 +137,7 @@ export class Ed25519Signature2020 {
 
     const detachedJws = await this.signer.sign({ data: verifyData });
     proof.jws = detachedJws;
+
     return proof;
   }
 
