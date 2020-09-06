@@ -2,7 +2,7 @@ import jsonld from 'jsonld';
 import constants from './constants';
 import crypto from 'crypto';
 
-import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
+import { Ed25519KeyPair2020 } from './Ed25519KeyPair2020';
 
 import { encode, decode } from './utils';
 
@@ -13,14 +13,14 @@ const sha256 = (data: any) => {
 };
 
 export interface Ed25519Signature2020Options {
-  key?: Ed25519KeyPair;
+  key?: Ed25519KeyPair2020;
   date?: any;
   signer?: any;
 }
 
 export class Ed25519Signature2020 {
   public useNativeCanonize: boolean = false;
-  public key?: Ed25519KeyPair;
+  public key?: Ed25519KeyPair2020;
   public proof: any;
   public date: any;
   public creator: any;
@@ -36,7 +36,7 @@ export class Ed25519Signature2020 {
       this.verificationMethod = this.key.id;
       this.signer = {
         sign: async ({ data }: any) => {
-          const signer = (this.key as Ed25519KeyPair).signer();
+          const signer = (this.key as Ed25519KeyPair2020).signer();
           const signature = await signer.sign({ data });
           return encode(Buffer.from(signature));
         },
@@ -76,8 +76,6 @@ export class Ed25519Signature2020 {
 
   async canonizeProof(proof: any, { documentLoader, expansionMap }: any) {
     proof = { ...proof };
-    delete proof.jws;
-    delete proof.signatureValue;
     delete proof.proofValue;
     return this.canonize(proof, {
       documentLoader,
@@ -112,8 +110,8 @@ export class Ed25519Signature2020 {
       throw new Error('A signer API has not been specified.');
     }
 
-    const detachedJws = await this.signer.sign({ data: verifyData });
-    proof.jws = detachedJws;
+    const signature = await this.signer.sign({ data: verifyData });
+    proof.proofValue = signature;
 
     return proof;
   }
@@ -227,15 +225,20 @@ export class Ed25519Signature2020 {
       throw new Error(`Verification method ${verificationMethod} not found.`);
     }
 
+    if (result['sec:publicKeyMultibase']) {
+      console.warn(
+        'JSON-LD Security context does not understand publicKeyMultibase'
+      );
+      result.publicKeyMultibase = result['sec:publicKeyMultibase'];
+    }
+
     return result;
   }
 
   async verifySignature({ verifyData, verificationMethod, proof }: any) {
     let { verifier } = this;
     if (!verifier) {
-      const key = await Ed25519KeyPair.from(verificationMethod);
-      // this suite relies on detached JWS....
-      // so we need to make sure thats the signature format we are verifying.
+      const key = await Ed25519KeyPair2020.from(verificationMethod);
       verifier = {
         verify: async ({ data, signature }: any) => {
           let verified = false;
@@ -252,7 +255,10 @@ export class Ed25519Signature2020 {
         },
       };
     }
-    return verifier.verify({ data: verifyData, signature: proof.jws });
+    return verifier.verify({
+      data: verifyData,
+      signature: proof.proofValue,
+    });
   }
 
   async verifyProof({

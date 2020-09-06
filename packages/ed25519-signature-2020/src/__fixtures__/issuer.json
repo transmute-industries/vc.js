@@ -13,7 +13,7 @@
         "id": "#key-0",
         "type": "Ed25519VerificationKey2020",
         "controller": "https://example.com/issuer/123",
-        "publicKeyBase58": "dbDmZLTWuEYYZNHFLKLoRkEX4sZykkSLNQLXvMUyMB1"
+        "publicKeyMultibase": "zgo4sNiXwJTbeJDWZLXVn9uTnRwgFHFxcgDePvEC9TiTYgRpG7q1p5s7yRAic"
       }
     ],
     "assertionMethod": ["#key-0"],
