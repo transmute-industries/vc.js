@@ -1,8 +1,8 @@
 import * as fixtures from '../__fixtures__';
 import { runTests } from './vc-js-tester';
+import { Ed25519Signature2020 } from '..';
 
 const { Ed25519KeyPair } = require('crypto-ld');
-import { Ed25519Signature2020 } from '..';
 
 const key = new Ed25519KeyPair(fixtures.keypair_0);
 const suite = new Ed25519Signature2020({
