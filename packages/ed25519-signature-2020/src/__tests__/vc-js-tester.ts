@@ -19,7 +19,6 @@ export const runTests = (suite: any) => {
       suite: new Ed25519Signature2020({}),
       documentLoader,
     });
-    // console.log(JSON.stringify(result, null, 2));
     expect(result.verified).toBe(true);
   });
 
@@ -50,7 +49,6 @@ export const runTests = (suite: any) => {
       suite: new Ed25519Signature2020({}),
       documentLoader,
     });
-    // console.log(JSON.stringify(result, null, 2));
     expect(result.verified).toBe(true);
   });
 };
