@@ -8,6 +8,9 @@ export class Ed25519KeyPair2020 extends Ed25519KeyPair {
     if (args.publicKeyMultibase) {
       args.publicKeyBase58 = bs58.encode(decode(args.publicKeyMultibase));
     }
+    if (args.privateKeyMultibase) {
+      args.privateKeyBase58 = bs58.encode(decode(args.privateKeyMultibase));
+    }
     return new Ed25519KeyPair2020(args);
   };
 
