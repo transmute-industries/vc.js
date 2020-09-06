@@ -10,7 +10,7 @@ const sha256 = (data: any) => {
   return h.digest();
 };
 
-export interface IEd25519Signature2020Options {
+export interface Ed25519Signature2020Options {
   key?: any;
   date?: any;
   signer?: any;
@@ -26,7 +26,7 @@ export class Ed25519Signature2020 {
   public signer: any;
   public verifier: any;
   public verificationMethod?: string;
-  constructor(options: IEd25519Signature2020Options = {}) {
+  constructor(options: Ed25519Signature2020Options = {}) {
     this.signer = options.signer;
     this.date = options.date;
     if (options.key) {
