@@ -10,23 +10,23 @@ const sha256 = (data: any) => {
   return h.digest();
 };
 
-export interface IEd25519Signature2018Options {
+export interface IEd25519Signature2020Options {
   key?: any;
   date?: any;
   signer?: any;
 }
 
-export class Ed25519Signature2018 {
+export class Ed25519Signature2020 {
   public useNativeCanonize: boolean = false;
   public key: any;
   public proof: any;
   public date: any;
   public creator: any;
-  public type: string = 'Ed25519Signature2018';
+  public type: string = 'Ed25519Signature2020';
   public signer: any;
   public verifier: any;
   public verificationMethod?: string;
-  constructor(options: IEd25519Signature2018Options = {}) {
+  constructor(options: IEd25519Signature2020Options = {}) {
     this.signer = options.signer;
     this.date = options.date;
     if (options.key) {
@@ -103,6 +103,12 @@ export class Ed25519Signature2018 {
     documentLoader,
     expansionMap,
   }: any) {
+    if (
+      proof.type ===
+      'https://example.com/credentials/latest#Ed25519Signature2020'
+    ) {
+      proof.type = 'Ed25519Signature2020';
+    }
     // concatenate hash of c14n proof options and hash of c14n document
     const c14nProofOptions = await this.canonizeProof(proof, {
       documentLoader,
@@ -122,7 +128,10 @@ export class Ed25519Signature2018 {
   // documentLoader,
   // expansionMap,
   any) {
-    return proof.type === this.type;
+    return (
+      proof.type === this.type ||
+      proof.type === 'https://example.com/credentials/latest#' + this.type
+    );
   }
 
   async updateProof({ proof }: any) {
@@ -257,6 +266,22 @@ export class Ed25519Signature2018 {
       },
       { documentLoader, compactToRelative: false }
     );
+
+    // const result = await jsonld.frame(
+    //   verificationMethod,
+    //   {
+    //     '@context': constants.SECURITY_CONTEXT_URL,
+    //     '@embed': '@always',
+    //     id: verificationMethod,
+    //   },
+    //   {
+    //     documentLoader,
+    //     compactToRelative: false,
+    //     expandContext: constants.SECURITY_CONTEXT_URL,
+    //   }
+    // );
+
+    // console.log(result, framed);
 
     if (!framed) {
       throw new Error(`Verification method ${verificationMethod} not found.`);

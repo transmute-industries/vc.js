@@ -13,10 +13,6 @@ const golem = documentLoaderFactory.pluginFactory.build({
   },
 });
 
-golem.addContext({
-  'https://example.com/credentials/latest': require('./contexts/credentials-latest.json'),
-});
-
 golem.addResolver({
   [issuer_0.id]: {
     resolve: (_did: string) => {
