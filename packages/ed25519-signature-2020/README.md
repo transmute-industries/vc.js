@@ -2,4 +2,4 @@
 
 This signature suite uses Ed25519 EdDSA and Multibase.
 
-See the spec.
+See the [w3c-ccg/lds-ed25519-2020](https://github.com/w3c-ccg/lds-ed25519-2020).
