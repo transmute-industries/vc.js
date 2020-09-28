@@ -30,7 +30,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@transmute/did-key-ed25519": "^0.1.0",
+    "@transmute/did-key-ed25519": "^0.2.1-unstable.21",
     "@transmute/jsonld-document-loader": "^0.2.0",
     "crypto-ld": "^3.7.0",
     "jsonld-signatures": "^5.1.0",
