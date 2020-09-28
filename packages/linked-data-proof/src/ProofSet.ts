@@ -279,8 +279,6 @@ export class ProofSet {
         compactProof,
       });
 
-      console.log(proofSet);
-
       document = doc;
 
       // verify proofs
@@ -293,7 +291,7 @@ export class ProofSet {
         expansionMap,
         compactProof,
       });
-      console.log(results);
+
       if (results.length === 0) {
         throw new Error(
           'Could not verify any proofs; no proofs matched the required ' +
