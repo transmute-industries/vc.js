@@ -40,13 +40,8 @@ export class Ed25519Signature2018 {
             crit: ['b64'],
           };
           const payload = Buffer.from(data);
-          const _jws = await EdDSA.signDetached(
-            payload,
-            keyUtils.privateKeyJwkFromPrivateKeyBase58(
-              this.key.privateKeyBase58
-            ),
-            header
-          );
+          const { privateKeyJwk } = await this.key.toJsonWebKeyPair(true);
+          const _jws = await EdDSA.signDetached(payload, privateKeyJwk, header);
           return _jws;
         },
       };
@@ -279,11 +274,12 @@ export class Ed25519Signature2018 {
       verifier = {
         verify: async ({ data, signature }: any) => {
           let verified = false;
+          const { publicKeyJwk } = await key.toJsonWebKeyPair(false);
           try {
             verified = await EdDSA.verifyDetached(
               signature,
               data,
-              keyUtils.publicKeyJwkFromPublicKeyBase58(key.publicKeyBase58)
+              publicKeyJwk
             );
           } catch (e) {
             console.error('An error occurred when verifying signature: ', e);
