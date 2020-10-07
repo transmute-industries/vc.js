@@ -15,6 +15,7 @@ const localOverrides: any = {
 export const documentLoader = async (url: string) => {
   // console.log(url);
   const withoutFragment: string = url.split('#')[0];
+
   if (localOverrides[withoutFragment]) {
     return {
       contextUrl: null, // this is for a context via a link header
