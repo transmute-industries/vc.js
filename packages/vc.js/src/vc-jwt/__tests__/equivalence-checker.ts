@@ -24,7 +24,7 @@ const verifyFactory = (jwk: any) => {
 };
 
 export const testVendors = (vendors: any[]) => {
-  vendors.forEach(async vendor => {
+  vendors.forEach(async (vendor) => {
     if (!vendor.jwt) {
       return;
     } else {
