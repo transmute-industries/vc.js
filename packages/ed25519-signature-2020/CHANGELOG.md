@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.1-unstable.10 (2020-10-14)
+
+**Note:** Version bump only for package @transmute/ed25519-signature-2020
+
+
+
+
+
 ## 0.1.1-unstable.9 (2020-10-07)
 
 **Note:** Version bump only for package @transmute/ed25519-signature-2020
