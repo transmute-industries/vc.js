@@ -212,7 +212,7 @@ export class ProofSet {
         }
         return { proof: matches[i], ...r };
       })
-      .filter(r => r);
+      .filter((r) => r);
   };
 
   private _addToJSON = (error: any) => {
@@ -246,7 +246,7 @@ export class ProofSet {
       throw new TypeError('At least one suite is required.');
     }
 
-    const legacy = suites.some(s => s.legacy);
+    const legacy = suites.some((s) => s.legacy);
     if (legacy) {
       throw new TypeError(`Legacy suites are no longer supported.`);
     }
@@ -300,10 +300,10 @@ export class ProofSet {
       }
 
       // combine results
-      const verified = results.some(r => r.verified);
+      const verified = results.some((r) => r.verified);
       if (!verified) {
         const errors = [].concat(
-          ...results.filter(r => r.error).map(r => r.error)
+          ...results.filter((r) => r.error).map((r) => r.error)
         );
         const result: any = { verified, results };
         if (errors.length > 0) {

@@ -1,6 +1,6 @@
 import * as fixtures from '../__fixtures__';
-const vc = require('vc-js');
 import { Ed25519Signature2018 } from '..';
+const vc = require('vc-js');
 const { documentLoader } = fixtures;
 
 export const runTests = (suite: any) => {

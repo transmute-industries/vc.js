@@ -1,7 +1,7 @@
 import * as fixtures from '../__fixtures__';
 
 export const testVendors = (vendors: any[]) => {
-  vendors.forEach(async vendor => {
+  vendors.forEach(async (vendor) => {
     describe(vendor.name, () => {
       it('sign document', async () => {
         const docSigned = await vendor.jsigs.sign(

@@ -1,7 +1,7 @@
 import * as fixtures from '../../__fixtures__';
 
 export const testVendors = (vendors: any[]) => {
-  vendors.forEach(async vendor => {
+  vendors.forEach(async (vendor) => {
     describe(vendor.name, () => {
       const credential = {
         ...fixtures.test_vectors.ld.credentialTemplate,
