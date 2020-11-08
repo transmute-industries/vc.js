@@ -2,7 +2,7 @@
   "name": "@transmute/ed25519-signature-2018",
   "author": "Orie Steele",
   "module": "dist/ed25519-signature-2018.esm.js",
-  "version": "0.1.1-unstable.11",
+  "version": "0.1.1-unstable.12",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -33,8 +33,8 @@
     "vc-js": "^0.6.4"
   },
   "dependencies": {
+    "@transmute/did-key-ed25519": "^0.2.1-unstable.24",
     "jsonld": "^3.1.1",
-    "security-context": "^4.0.0",
-    "@transmute/did-key-ed25519": "^0.2.1-unstable.24"
+    "security-context": "^4.0.0"
   }
 }
