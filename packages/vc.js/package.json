@@ -24,6 +24,7 @@
     "prepare": "tsdx build"
   },
   "devDependencies": {
+    "@mattrglobal/jsonld-signatures-bbs": "^0.7.0",
     "@transmute/json-web-key-2020": "^1.0.0",
     "@transmute/json-web-signature-2020": "^1.0.0",
     "crypto-ld": "^3.7.0",

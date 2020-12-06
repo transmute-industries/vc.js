@@ -2,6 +2,7 @@ const unlockedDidDocument = require('./unlocked-did.json');
 
 const localOverrides: any = {
   [unlockedDidDocument.id]: unlockedDidDocument,
+  'https://www.w3.org/ns/did/v1': require('./contexts/did-v1.json'),
   'https://w3id.org/did/v0.11': require('./contexts/did-v0.11.json'),
   'https://www.w3.org/2018/credentials/v1': require('./contexts/credentials-v1.json'),
   'https://www.w3.org/2018/credentials/v2': require('./contexts/credentials-v1.json'),
@@ -9,7 +10,10 @@ const localOverrides: any = {
   'https://www.w3.org/ns/odrl.jsonld': require('./contexts/odrl.json'),
   'https://w3id.org/security/v1': require('./contexts/security-v1.json'),
   'https://w3id.org/security/v2': require('./contexts/security-v2.json'),
-  'https://w3id.org/security/v3': require('./contexts/security-v2.json'),
+  'https://w3id.org/security/v3': require('./contexts/security-v3.json'),
+  'https://w3id.org/zkp/v1': require('./contexts/zkp-v1.json'),
+  'https://w3id.org/citizenship/v1': require('./contexts/citizenship-v1.json'),
+  'https://w3c-ccg.github.io/ldp-bbs2020/context/v1': require('./contexts/zkp-v1.json'),
 };
 
 export const documentLoader = async (url: string) => {

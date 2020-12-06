@@ -1,0 +1,36 @@
+{
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/citizenship/v1",
+      "https://w3c-ccg.github.io/ldp-bbs2020/context/v1"
+    ],
+    "id": "https://issuer.oidp.uscis.gov/credentials/83627465",
+    "type": [
+      "PermanentResidentCard",
+      "VerifiableCredential"
+    ],
+    "description": "Government of Example Permanent Resident Card.",
+    "identifier": "83627465",
+    "name": "Permanent Resident Card",
+    "credentialSubject": {
+      "id": "did:key:z5TcESXuYUE9aZWYwSdrUEGK1HNQFHyTt4aVpaCTVZcDXQmUheFwfNZmRksaAbBneNm5KyE52SdJeRCN1g6PJmF31GsHWwFiqUDujvasK3wTiDr3vvkYwEJHt7H5RGEKYEp1ErtQtcEBgsgY2DA9JZkHj1J9HZ8MRDTguAhoFtR4aTBQhgnkP4SwVbxDYMEZoF2TMYn3s#zUC7LTa4hWtaE9YKyDsMVGiRNqPMN3s4rjBdB3MFi6PcVWReNfR72y3oGW2NhNcaKNVhMobh7aHp8oZB3qdJCs7RebM2xsodrSm8MmePbN25NTGcpjkJMwKbcWfYDX7eHCJjPGM",
+      "type": [
+        "Person",
+        "PermanentResident"
+      ],
+      "familyName": "SMITH",
+      "gender": "Male",
+      "givenName": "JOHN"
+    },
+    "expirationDate": "2029-12-03T12:19:52Z",
+    "issuanceDate": "2019-12-03T12:19:52Z",
+    "issuer": "did:key:z5TcESXuYUE9aZWYwSdrUEGK1HNQFHyTt4aVpaCTVZcDXQmUheFwfNZmRksaAbBneNm5KyE52SdJeRCN1g6PJmF31GsHWwFiqUDujvasK3wTiDr3vvkYwEJHt7H5RGEKYEp1ErtQtcEBgsgY2DA9JZkHj1J9HZ8MRDTguAhoFtR4aTBQhgnkP4SwVbxDYMEZoF2TMYn3s",
+    "proof": {
+      "type": "BbsBlsSignatureProof2020",
+      "created": "2020-12-06T18:27:20Z",
+      "nonce": "TQe5Dhs5U9wkCQr35QqaHtamozqpc9jkRO9nAj4PoAX0DPtEEPVqoSPuECrm1QFhy4Y=",
+      "proofPurpose": "assertionMethod",
+      "proofValue": "ABkB/wbvlO1Ne2qLh2/QgueFiWg/jaCmkFMBjtiqO1KCbIOu5vBzwXJcqs9n53TfohHxHcYPgqjd7Y7zQ5UJjKzgM/V49sVoxl5qvN/VtrdU9hI2JEbN0YbOmGit3Pmsf2dZmgqAgcKORH7xKWjOyPzhd2sQS88wFTNLUXKtVhjgkkH1t0YFPt151+f9sUpLjfrZ96STAAAAdLDjKfTf5jJ6BQkaTJI8RcFRG1vH51ra1fuHhoNB2/EV7JOMt+C323f5LQZkdl/PCwAAAAJZpDwkWgSDdybuujwbyehvyoRXkdMFoHeq19vU2z9dQl1ijJWqF0V7Duwl0vZyFkBxdchihGyWK9ojw1fg5N0vi0nEMdGt8QYVZPdIMxNHBKoUBVoeXrkXkX0aTH2etsH4f19eaM+OBDH2Kz4DJiDFAAAACRIezRzX6LySiJG3CEyZMJTQKMCr7IRkp4F+sdwKbaRxIErx6zjJvqAhbBqYFvD5JpIAwOU7Gi4zmZKjJOqM1rs2WUv0bwrlMXOYEsFxNpWUtUpgeK1fhhmRPVWEBIQQG0a5t3fJYXyg6L8SzNs+tQ0y2ihfgL5Ht9b/mvSI8L7QSMLGS/NNN4VmE/0xrLg6hPUntiz9parHNlhvVxWvDRRMnY45fDUhWMn/CHTXj+xQp3MZs5FV6OU3MFYLTQzQBj0d89xBig2XM33V7vz70f7fmcyGgwUZdNDdrAs7EL5SU+NsCCoZISKO38HXyAhKYMhwfQsjCTcFTGVg12ZPDwIDUlYtCihSru6Y8g3iDhcp3/WJ69byk+Jn2FB68bvw+Q==",
+      "verificationMethod": "did:key:z5TcESXuYUE9aZWYwSdrUEGK1HNQFHyTt4aVpaCTVZcDXQmUheFwfNZmRksaAbBneNm5KyE52SdJeRCN1g6PJmF31GsHWwFiqUDujvasK3wTiDr3vvkYwEJHt7H5RGEKYEp1ErtQtcEBgsgY2DA9JZkHj1J9HZ8MRDTguAhoFtR4aTBQhgnkP4SwVbxDYMEZoF2TMYn3s#zUC7LTa4hWtaE9YKyDsMVGiRNqPMN3s4rjBdB3MFi6PcVWReNfR72y3oGW2NhNcaKNVhMobh7aHp8oZB3qdJCs7RebM2xsodrSm8MmePbN25NTGcpjkJMwKbcWfYDX7eHCJjPGM"
+    }
+  }
