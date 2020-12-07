@@ -1,0 +1,30 @@
+{
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://www.w3.org/2018/credentials/examples/v1",
+      "https://w3c-ccg.github.io/ldp-bbs2020/context/v1"
+    ],
+    "id": "http://example.gov/credentials/3732",
+    "type": [
+      "VerifiableCredential",
+      "UniversityDegreeCredential"
+    ],
+    "issuer": {
+      "id": "did:key:z5TcESXuYUE9aZWYwSdrUEGK1HNQFHyTt4aVpaCTVZcDXQmUheFwfNZmRksaAbBneNm5KyE52SdJeRCN1g6PJmF31GsHWwFiqUDujvasK3wTiDr3vvkYwEJHt7H5RGEKYEp1ErtQtcEBgsgY2DA9JZkHj1J9HZ8MRDTguAhoFtR4aTBQhgnkP4SwVbxDYMEZoF2TMYn3s"
+    },
+    "issuanceDate": "2020-03-10T04:24:12.164Z",
+    "credentialSubject": {
+      "id": "did:key:z5TcESXuYUE9aZWYwSdrUEGK1HNQFHyTt4aVpaCTVZcDXQmUheFwfNZmRksaAbBneNm5KyE52SdJeRCN1g6PJmF31GsHWwFiqUDujvasK3wTiDr3vvkYwEJHt7H5RGEKYEp1ErtQtcEBgsgY2DA9JZkHj1J9HZ8MRDTguAhoFtR4aTBQhgnkP4SwVbxDYMEZoF2TMYn3s#zUC7LTa4hWtaE9YKyDsMVGiRNqPMN3s4rjBdB3MFi6PcVWReNfR72y3oGW2NhNcaKNVhMobh7aHp8oZB3qdJCs7RebM2xsodrSm8MmePbN25NTGcpjkJMwKbcWfYDX7eHCJjPGM",
+      "degree": {
+        "type": "BachelorDegree",
+        "name": "Bachelor of Science and Arts"
+      }
+    },
+    "proof": {
+      "type": "BbsBlsSignature2020",
+      "created": "2020-12-06T16:10:24Z",
+      "proofPurpose": "assertionMethod",
+      "proofValue": "sKNVGJssWdZcvmCqvcfgz7s64Ibj0ZfqSmZIwgy+yIhCUOlWflsBKCfVNGAPfd8yW/pryt87c7ho/PAJofdFZZB97gpQkpisI/+Rcs2xLtVRrpTiu4YU3sXEFbgPjA3GY/fZOpdFTABVutDvckchLw==",
+      "verificationMethod": "did:key:z5TcESXuYUE9aZWYwSdrUEGK1HNQFHyTt4aVpaCTVZcDXQmUheFwfNZmRksaAbBneNm5KyE52SdJeRCN1g6PJmF31GsHWwFiqUDujvasK3wTiDr3vvkYwEJHt7H5RGEKYEp1ErtQtcEBgsgY2DA9JZkHj1J9HZ8MRDTguAhoFtR4aTBQhgnkP4SwVbxDYMEZoF2TMYn3s#zUC7LTa4hWtaE9YKyDsMVGiRNqPMN3s4rjBdB3MFi6PcVWReNfR72y3oGW2NhNcaKNVhMobh7aHp8oZB3qdJCs7RebM2xsodrSm8MmePbN25NTGcpjkJMwKbcWfYDX7eHCJjPGM"
+    }
+  }

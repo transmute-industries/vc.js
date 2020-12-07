@@ -44,7 +44,9 @@ describe('Ed25519Signature2018 baseURI', () => {
       documentLoader: (url: string) => {
         if (url.split('#')[0] === shortForm) {
           const shortFormDidDoc = require('../../__fixtures__/shortFormDidDoc.json');
-          expect(shortFormDidDoc['@context'][1]).toEqual({ '@base': 'https://short-form-did.example.com/12' })
+          expect(shortFormDidDoc['@context'][1]).toEqual({
+            '@base': 'https://short-form-did.example.com/12',
+          });
           return {
             contextUrl: null,
             document: shortFormDidDoc,
@@ -89,8 +91,10 @@ describe('Ed25519Signature2018 baseURI', () => {
       documentLoader: (url: string) => {
         if (url.split('#')[0] === shortForm) {
           const shortFormDidDoc = require('../../__fixtures__/shortFormDidDoc.json');
-          shortFormDidDoc['@context'] = ['https://w3id.org/did/v0.11']
-          expect(shortFormDidDoc['@context']).toEqual(['https://w3id.org/did/v0.11'])
+          shortFormDidDoc['@context'] = ['https://w3id.org/did/v0.11'];
+          expect(shortFormDidDoc['@context']).toEqual([
+            'https://w3id.org/did/v0.11',
+          ]);
           return {
             contextUrl: null,
             document: shortFormDidDoc,
