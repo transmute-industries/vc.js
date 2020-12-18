@@ -162,3 +162,46 @@ it('expirationDate is in the past', async () => {
   expect(validationResult.valid).toEqual(false);
   expectValidationToBe(validationResult.validations, 'Expiration', false);
 });
+
+it('generate fixture', async () => {
+  credentialTemplate = {
+    ...credentialTemplate,
+    issuer: key.controller,
+  };
+  credentialTemplate.expirationDate = moment()
+    .add(1, 'days')
+    .format();
+
+  const credentialIssued = await vc.issue({
+    credential: { ...credentialTemplate },
+    suite: suite,
+    documentLoader,
+  });
+
+  const validationResult = await vc.validateCredential({
+    credential: { ...credentialIssued },
+    suite: new Ed25519Signature2018({}),
+    documentLoader,
+  });
+  // console.log(JSON.stringify(validationResult, null, 2));
+  expect(validationResult).toEqual({
+    valid: true,
+    validations: [
+      {
+        valid: true,
+        title: 'Signature',
+        description: 'did:example:def#123',
+      },
+      {
+        valid: true,
+        title: 'Activation',
+        description: 'This credential activated a year ago',
+      },
+      {
+        valid: true,
+        title: 'Expiration',
+        description: 'This credential expires in a day',
+      },
+    ],
+  });
+});
