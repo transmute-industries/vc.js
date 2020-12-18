@@ -27,6 +27,7 @@
     "@mattrglobal/jsonld-signatures-bbs": "^0.7.0",
     "@transmute/json-web-key-2020": "^1.0.0",
     "@transmute/json-web-signature-2020": "^1.0.0",
+    "@types/moment": "^2.13.0",
     "crypto-ld": "^3.7.0",
     "jose": "^1.27.1",
     "jsonld-signatures": "^5.1.0",
