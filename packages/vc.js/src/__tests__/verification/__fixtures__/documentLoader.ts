@@ -1,4 +1,6 @@
-export const documentLoader = (uri: string) => {
+import { driver } from '@transmute/did-key-ed25519';
+
+export const documentLoader = async (uri: string) => {
   if (uri === 'https://w3id.org/traceability/v1') {
     return {
       documentUrl: uri,
@@ -36,6 +38,15 @@ export const documentLoader = (uri: string) => {
     return {
       documentUrl: uri,
       document: require('../__fixtures__/controller.json'),
+    };
+  }
+  if (uri.startsWith('did:key')) {
+    const { didDocument } = await driver.resolve(uri, {
+      accept: 'application/did+ld+json',
+    });
+    return {
+      documentUrl: uri,
+      document: didDocument,
     };
   }
 

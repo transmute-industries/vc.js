@@ -232,6 +232,7 @@ it('should work', async () => {
     suite: new Ed25519Signature2018(),
     documentLoader,
   });
+  // true
   console.log(result.verified);
 });
 
@@ -257,5 +258,6 @@ it('should fail', async () => {
     suite: new Ed25519Signature2018(),
     documentLoader,
   });
+  // true, but should be false...
   console.log(result.verified);
 });
