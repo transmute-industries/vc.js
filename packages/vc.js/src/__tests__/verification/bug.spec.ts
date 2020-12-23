@@ -1,7 +1,7 @@
 import { ld as vcTransmute } from '../../';
-const vcDb = require('vc-js');
-const { Ed25519Signature2018 } = require('@transmute/ed25519-signature-2018');
-const { Ed25519KeyPair } = require('@transmute/did-key-ed25519');
+import vcDb from 'vc-js';
+import { Ed25519Signature2018 } from '@transmute/ed25519-signature-2018';
+import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 import { documentLoader } from '../verification/__fixtures__/documentLoader';
 
 const exampleVc = {
