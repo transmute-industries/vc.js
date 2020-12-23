@@ -217,47 +217,88 @@ const issuanceKey = {
   tags: [],
 };
 
-it('should work', async () => {
+let suite: any;
+beforeAll(async () => {
   const key = await Ed25519KeyPair.from(issuanceKey);
-  const suite = new Ed25519Signature2018({
+  suite = new Ed25519Signature2018({
     key,
   });
-  const issued = await vc.issue({
-    credential: cmtrVc,
-    suite,
-    documentLoader,
-  });
-  const result = await vc.verifyCredential({
-    credential: issued,
-    suite: new Ed25519Signature2018(),
-    documentLoader,
-  });
-  // true
-  console.log(result.verified);
 });
 
-it('should fail', async () => {
-  const key = await Ed25519KeyPair.from(issuanceKey);
-  const suite = new Ed25519Signature2018({
-    key,
+describe("Transmute's vc.js", () => {
+  it('should work', async () => {
+    const issued = await vc.issue({
+      credential: cmtrVc,
+      suite,
+      documentLoader,
+    });
+    const result = await vc.verifyCredential({
+      credential: issued,
+      suite: new Ed25519Signature2018(),
+      documentLoader,
+    });
+    // true
+    console.log(result.verified);
   });
-  const issued = await vc.issue({
-    credential: cmtrVc,
-    suite,
-    documentLoader,
+
+  it('should fail', async () => {
+    const issued = await vc.issue({
+      credential: cmtrVc,
+      suite,
+      documentLoader,
+    });
+    const wrongVc = {
+      ...issued,
+      issuanceDate: '2020-12-22T20:19:58+00:00',
+      id: 'lol',
+      name: 'name',
+      description: 'description',
+    };
+    const result = await vc.verifyCredential({
+      credential: wrongVc,
+      suite: new Ed25519Signature2018(),
+      documentLoader,
+    });
+    // true, but should be false...
+    console.log(result.verified);
   });
-  const wrongVc = {
-    ...issued,
-    issuanceDate: '2020-12-22T20:19:58+00:00',
-    id: 'lol',
-    name: 'name',
-    description: 'description',
-  };
-  const result = await vc.verifyCredential({
-    credential: wrongVc,
-    suite: new Ed25519Signature2018(),
-    documentLoader,
+});
+
+describe("Digital Bazaar's vc.js", () => {
+  it('should work', async () => {
+    const issued = await vc.issue({
+      credential: cmtrVc,
+      suite,
+      documentLoader,
+    });
+    const result = await vc.verifyCredential({
+      credential: issued,
+      suite: new Ed25519Signature2018(),
+      documentLoader,
+    });
+    // true
+    console.log(result.verified);
   });
-  // true, but should be false...
-  console.log(result.verified);
+
+  it('should fail', async () => {
+    const issued = await vc.issue({
+      credential: cmtrVc,
+      suite,
+      documentLoader,
+    });
+    const wrongVc = {
+      ...issued,
+      issuanceDate: '2020-12-22T20:19:58+00:00',
+      id: 'lol',
+      name: 'name',
+      description: 'description',
+    };
+    const result = await vc.verifyCredential({
+      credential: wrongVc,
+      suite: new Ed25519Signature2018(),
+      documentLoader,
+    });
+    // true, but should be false...
+    console.log(result.verified);
+  });
 });
