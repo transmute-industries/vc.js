@@ -1,12 +1,6 @@
 import { driver } from '@transmute/did-key-ed25519';
 
 export const documentLoader = async (uri: string) => {
-  if (uri === 'https://w3id.org/traceability/v1') {
-    return {
-      documentUrl: uri,
-      document: require('../../../__fixtures__/contexts/traceability-v1.json'),
-    }
-  }
   if (uri === 'https://www.w3.org/2018/credentials/v1') {
     return {
       documentUrl: uri,
