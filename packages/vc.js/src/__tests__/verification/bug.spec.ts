@@ -82,3 +82,18 @@ describe("Transmute's vc.js", () => {
 describe("Digital Bazaar's vc.js", () => {
   issueVerifyTestSuite(vcDb, exampleVc);
 });
+
+const exampleVcWithInvalidId = {
+  ...exampleVc,
+  id: 'this-id-does-not-contain-semicolon-slash-slash',
+};
+// The following two testsuites will fail because vc.verifyCredential returns result.verified === true
+// even after the credential is changed. It should return false
+// This is a bug that seems to be caused by the id of the credential not containing "://"
+describe("Transmute's vc.js with a credential with an invalid id", () => {
+  issueVerifyTestSuite(vcTransmute, exampleVcWithInvalidId);
+});
+
+describe("Digital Bazaar's vc.js with a credential with an invalid id", () => {
+  issueVerifyTestSuite(vcDb, exampleVcWithInvalidId);
+});
