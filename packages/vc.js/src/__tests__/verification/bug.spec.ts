@@ -42,7 +42,7 @@ beforeAll(async () => {
 });
 
 const issueVerifyTestSuite = (vc: any, credential: any) => {
-  it('should work', async () => {
+  it('should work with valid credential', async () => {
     const issued = await vc.issue({
       credential,
       suite,
@@ -56,7 +56,7 @@ const issueVerifyTestSuite = (vc: any, credential: any) => {
     expect(result.verified).toBeTruthy();
   });
 
-  it('should fail', async () => {
+  it('should fail if credential is changed', async () => {
     const issued = await vc.issue({
       credential,
       suite,
@@ -65,7 +65,6 @@ const issueVerifyTestSuite = (vc: any, credential: any) => {
     const wrongVc = {
       ...issued,
       issuanceDate: '2020-12-22T20:19:58+00:00',
-      id: 'lol',
     };
     const result = await vc.verifyCredential({
       credential: wrongVc,
