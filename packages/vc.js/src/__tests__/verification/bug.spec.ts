@@ -1,10 +1,11 @@
-import { ld as vc } from '../../';
+import { ld as vcTransmute } from '../../';
+const vcDb = require('vc-js');
 const { Ed25519Signature2018 } = require('@transmute/ed25519-signature-2018');
 const { Ed25519KeyPair } = require('@transmute/did-key-ed25519');
 import { documentLoader } from '../verification/__fixtures__/documentLoader';
 
-const cmtrVc = {
-  '@context': 'https://www.w3.org/2018/credentials/v1',
+const exampleVc = {
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
   type: ['VerifiableCredential'],
   credentialSubject: {
     id: 'https://example.com/me',
@@ -40,10 +41,10 @@ beforeAll(async () => {
   });
 });
 
-describe("Transmute's vc.js", () => {
+const issueVerifyTestSuite = (vc: any, credential: any) => {
   it('should work', async () => {
     const issued = await vc.issue({
-      credential: cmtrVc,
+      credential,
       suite,
       documentLoader,
     });
@@ -52,13 +53,12 @@ describe("Transmute's vc.js", () => {
       suite: new Ed25519Signature2018(),
       documentLoader,
     });
-    // true
-    console.log(result.verified);
+    expect(result.verified).toBeTruthy();
   });
 
   it('should fail', async () => {
     const issued = await vc.issue({
-      credential: cmtrVc,
+      credential,
       suite,
       documentLoader,
     });
@@ -72,44 +72,14 @@ describe("Transmute's vc.js", () => {
       suite: new Ed25519Signature2018(),
       documentLoader,
     });
-    // true, but should be false...
-    console.log(result.verified);
+    expect(result.verified).toBeFalsy();
   });
+}
+
+describe("Transmute's vc.js", () => {
+  issueVerifyTestSuite(vcTransmute, exampleVc);
 });
 
 describe("Digital Bazaar's vc.js", () => {
-  it('should work', async () => {
-    const issued = await vc.issue({
-      credential: cmtrVc,
-      suite,
-      documentLoader,
-    });
-    const result = await vc.verifyCredential({
-      credential: issued,
-      suite: new Ed25519Signature2018(),
-      documentLoader,
-    });
-    // true
-    console.log(result.verified);
-  });
-
-  it('should fail', async () => {
-    const issued = await vc.issue({
-      credential: cmtrVc,
-      suite,
-      documentLoader,
-    });
-    const wrongVc = {
-      ...issued,
-      issuanceDate: '2020-12-22T20:19:58+00:00',
-      id: 'lol',
-    };
-    const result = await vc.verifyCredential({
-      credential: wrongVc,
-      suite: new Ed25519Signature2018(),
-      documentLoader,
-    });
-    // true, but should be false...
-    console.log(result.verified);
-  });
+  issueVerifyTestSuite(vcDb, exampleVc);
 });
