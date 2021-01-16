@@ -60,7 +60,7 @@ export const testVendors = (vendors: any[]) => {
           challenge: '123',
           documentLoader: fixtures.documentLoader,
         });
-        
+
         expect(presentationProved).toEqual(
           fixtures.test_vectors.ld.presentationProved
         );
