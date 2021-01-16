@@ -26,11 +26,12 @@
   "devDependencies": {
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "crypto-ld": "^3.7.0",
+    "jsonld-signatures": "^5.1.0"
   },
   "dependencies": {
-    "crypto-ld": "^3.7.0",
-    "jsonld-signatures": "^5.1.0",
+    "jsonld": "^3.2.0",
     "serialize-error": "^7.0.1"
   }
 }

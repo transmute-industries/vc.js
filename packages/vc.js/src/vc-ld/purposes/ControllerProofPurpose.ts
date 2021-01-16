@@ -75,9 +75,7 @@ export class ControllerProofPurpose extends ProofPurpose {
         }
         // Note: `expansionMap` is intentionally not passed; we can safely drop
         // properties here and must allow for it
-        const {
-          '@graph': [framed = {}],
-        } = await jsonld.frame(
+        const framed = await jsonld.frame(
           controllerId,
           {
             '@context': constants.SECURITY_CONTEXT_URL,
