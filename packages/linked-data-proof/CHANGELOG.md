@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.1-unstable.0 (2021-01-16)
+
+**Note:** Version bump only for package @transmute/linked-data-proof
+
+
+
+
+
 # [0.2.0](https://github.com/transmute-industries/vc.js/compare/v0.1.1-unstable.14...v0.2.0) (2021-01-16)
 
 
