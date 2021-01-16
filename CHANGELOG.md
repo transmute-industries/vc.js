@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/transmute-industries/vc.js/compare/v0.1.1-unstable.14...v0.2.0) (2021-01-16)
+
+
+### Bug Fixes
+
+* eq checks ([8f9c8bf](https://github.com/transmute-industries/vc.js/commit/8f9c8bff7b98500c1e92290aacb20f68d09f994c))
+* ignore jsonld version drift in verification result equivalence checks ([c14f178](https://github.com/transmute-industries/vc.js/commit/c14f17823e2e069e094517e37cd71df8dd595243))
+* update jsonld frame ([163cd49](https://github.com/transmute-industries/vc.js/commit/163cd492951ac46af43922e62423ea7628c4a82f))
+
+
+
+
+
 ## 0.1.1-unstable.14 (2020-12-18)
 
 **Note:** Version bump only for package root
