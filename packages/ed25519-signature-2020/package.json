@@ -34,9 +34,9 @@
     "vc-js": "0.6.4"
   },
   "dependencies": {
+    "@transmute/security-context": "0.0.1",
     "bs58": "^4.0.1",
     "jsonld": "^3.1.1",
-    "multibase": "^3.0.0",
-    "security-context": "^4.0.0"
+    "multibase": "^3.0.0"
   }
 }
