@@ -1,4 +1,4 @@
-const { constants: securityConstants } = require('security-context');
+const { constants: securityConstants } = require('@transmute/security-context');
 
 const constants = {
   // leave commented out, changing this will break compatability
