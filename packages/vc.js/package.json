@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@transmute/linked-data-proof": "^0.2.1-unstable.2",
-    "@transmute/security-context": "0.0.1",
-    "credentials-context": "^1.0.0",
+    "@transmute/security-context": "0.0.4-unstable.2",
+    "@transmute/credentials-context": "0.0.4-unstable.2",
     "jsonld": "^3.2.0",
     "jsonld-checker": "^0.1.4",
     "moment": "^2.27.0"

@@ -31,7 +31,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@transmute/security-context": "0.0.1",
+    "@transmute/security-context": "0.0.4-unstable.2",
     "jsonld": "^3.2.0",
     "serialize-error": "^7.0.1"
   }
