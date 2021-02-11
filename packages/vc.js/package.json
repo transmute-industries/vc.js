@@ -43,5 +43,11 @@
     "jsonld": "^3.2.0",
     "jsonld-checker": "^0.1.4",
     "moment": "^2.27.0"
+  },
+  "homepage": "https://github.com/transmute-industries/vc.js/tree/master/packages/vc.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/transmute-industries/vc.js.git",
+    "directory": "packages/vc.js"
   }
 }

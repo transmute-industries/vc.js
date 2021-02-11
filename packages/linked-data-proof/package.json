@@ -34,5 +34,11 @@
     "@transmute/security-context": "0.0.4-unstable.2",
     "jsonld": "^3.2.0",
     "serialize-error": "^7.0.1"
+  },
+  "homepage": "https://github.com/transmute-industries/vc.js/tree/master/packages/linked-data-proof",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/transmute-industries/vc.js.git",
+    "directory": "packages/linked-data-proof"
   }
 }

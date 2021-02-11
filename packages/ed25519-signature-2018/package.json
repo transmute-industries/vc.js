@@ -36,5 +36,11 @@
     "@transmute/did-key-ed25519": "^0.2.1-unstable.24",
     "@transmute/security-context": "0.0.4-unstable.2",
     "jsonld": "^3.1.1"
+  },
+  "homepage": "https://github.com/transmute-industries/vc.js/tree/master/packages/ed25519-signature-2018",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/transmute-industries/vc.js.git",
+    "directory": "packages/ed25519-signature-2018"
   }
 }
