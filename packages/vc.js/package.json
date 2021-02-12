@@ -41,7 +41,7 @@
     "@transmute/linked-data-proof": "^0.2.1-unstable.4",
     "@transmute/security-context": "0.0.4-unstable.2",
     "jsonld": "^3.2.0",
-    "jsonld-checker": "^0.1.4",
+    "jsonld-checker": "0.1.4",
     "moment": "^2.27.0"
   },
   "homepage": "https://github.com/transmute-industries/vc.js/tree/master/packages/vc.js",
