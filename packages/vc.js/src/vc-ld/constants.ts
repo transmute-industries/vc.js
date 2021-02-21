@@ -1,5 +1,7 @@
 const { constants: securityConstants } = require('@transmute/security-context');
-const { constants: credentialsConstants } = require('@transmute/credentials-context');
+const {
+  constants: credentialsConstants,
+} = require('@transmute/credentials-context');
 
 export default {
   CREDENTIALS_CONTEXT_URL: 'https://www.w3.org/2018/credentials/v2',

@@ -14,10 +14,6 @@ export class Ed25519KeyPair2020 extends Ed25519KeyPair {
     return new Ed25519KeyPair2020(args);
   };
 
-  constructor(args: any) {
-    super(args);
-  }
-
   toVerificationMethod() {
     return {
       id: this.id,
