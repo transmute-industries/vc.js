@@ -84,9 +84,9 @@ const _verifyPresentation = async (options: IVerifyOptions) => {
     // verify every credential in `verifiableCredential`
     credentialResults = await Promise.all(
       credentials.map((credential: any) => {
-        let suite = options.suite
-        if (options.suiteMap){
-          suite = new options.suiteMap[credential.proof.type]()
+        let suite = options.suite;
+        if (options.suiteMap) {
+          suite = new options.suiteMap[credential.proof.type]();
         }
         return verifyCredential({ credential, ...options, suite });
       })
@@ -121,14 +121,14 @@ const _verifyPresentation = async (options: IVerifyOptions) => {
     options.presentationPurpose ||
     new AuthenticationProofPurpose({ controller, domain, challenge });
 
-  let suite = options.suite
-  if (options.suiteMap){
-    suite = new options.suiteMap[presentation.proof.type]()
+  let suite = options.suite;
+  if (options.suiteMap) {
+    suite = new options.suiteMap[presentation.proof.type]();
   }
   const presentationResult = await jSigsVerify(presentation, {
     purpose,
     ...options,
-    suite
+    suite,
   });
 
   return {
