@@ -71,15 +71,54 @@ export const verifyCredential = async (options: IVerifyOptions) => {
 const _verifyPresentation = async (options: IVerifyOptions) => {
   const { presentation, unsignedPresentation } = options;
 
-  checkPresentation(presentation);
+  let vp = null;
+  if (presentation && unsignedPresentation) {
+    throw new Error(
+      '"presentation" or "unsignedPresentation" are required, NOT both.'
+    );
+  }
 
-  // FIXME: verify presentation first, then each individual credential
-  // only if that proof is verified
+  let presentationResult = null;
+  if (presentation) {
+    checkPresentation(presentation);
+    vp = presentation;
+    if (!vp.proof) {
+      throw new Error('presentation MUST contain "proof"');
+    }
+    const { controller, domain, challenge } = options;
+    if (!options.presentationPurpose && !challenge) {
+      throw new Error(
+        'A "challenge" param is required for AuthenticationProofPurpose.'
+      );
+    }
+
+    const purpose =
+      options.presentationPurpose ||
+      new AuthenticationProofPurpose({ controller, domain, challenge });
+
+    let suite = options.suite;
+    if (options.suiteMap) {
+      suite = new options.suiteMap[presentation.proof.type]();
+    }
+    presentationResult = await jSigsVerify(presentation, {
+      purpose,
+      ...options,
+      suite,
+    });
+  }
+
+  if (unsignedPresentation) {
+    checkPresentation(unsignedPresentation);
+    vp = unsignedPresentation;
+    if (vp.proof) {
+      throw new Error('unsignedPresentation MUST NOT contain "proof"');
+    }
+  }
 
   // if verifiableCredentials are present, verify them, individually
   let credentialResults: any;
   let verified = true;
-  const credentials = jsonld.getValues(presentation, 'verifiableCredential');
+  const credentials = jsonld.getValues(vp, 'verifiableCredential');
   if (credentials.length > 0) {
     // verify every credential in `verifiableCredential`
     credentialResults = await Promise.all(
@@ -107,29 +146,8 @@ const _verifyPresentation = async (options: IVerifyOptions) => {
 
   if (unsignedPresentation) {
     // No need to verify the proof section of this presentation
-    return { verified, results: [presentation], credentialResults };
+    return { verified, results: [vp], credentialResults };
   }
-
-  const { controller, domain, challenge } = options;
-  if (!options.presentationPurpose && !challenge) {
-    throw new Error(
-      'A "challenge" param is required for AuthenticationProofPurpose.'
-    );
-  }
-
-  const purpose =
-    options.presentationPurpose ||
-    new AuthenticationProofPurpose({ controller, domain, challenge });
-
-  let suite = options.suite;
-  if (options.suiteMap) {
-    suite = new options.suiteMap[presentation.proof.type]();
-  }
-  const presentationResult = await jSigsVerify(presentation, {
-    purpose,
-    ...options,
-    suite,
-  });
 
   return {
     presentationResult,
@@ -144,13 +162,14 @@ export const verify = async (options: IVerifyOptions) => {
       '"documentLoader" parameter is required for verifying.'
     );
   }
-  const { presentation } = options;
+  const { presentation, unsignedPresentation } = options;
   try {
-    if (!presentation) {
+    if (!presentation && !unsignedPresentation) {
       throw new TypeError(
-        'A "presentation" property is required for verifying.'
+        'A "presentation" or "unsignedPresentation" property is required for verifying.'
       );
     }
+
     return _verifyPresentation(options);
   } catch (error) {
     return {
