@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.2.1-unstable.5",
+  "version": "0.2.1-unstable.6",
   "command": {
     "publish": {
       "conventionalCommits": true
