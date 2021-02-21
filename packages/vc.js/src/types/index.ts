@@ -9,7 +9,8 @@ export interface IVerifyOptions {
   presentation?: any;
   credential?: any;
   checkStatus?: any;
-  suite: any;
+  suite?: any;
+  suiteMap: any;
   purpose?: any;
   unsignedPresentation?: any;
   documentLoader: any;
