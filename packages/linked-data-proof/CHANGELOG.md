@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.1-unstable.11 (2021-05-03)
+
+**Note:** Version bump only for package @transmute/linked-data-proof
+
+
+
+
+
 ## 0.2.1-unstable.10 (2021-03-10)
 
 **Note:** Version bump only for package @transmute/linked-data-proof
