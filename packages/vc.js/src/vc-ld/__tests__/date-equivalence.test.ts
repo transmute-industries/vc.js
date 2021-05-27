@@ -2,7 +2,7 @@ import * as fixtures from '../../__fixtures__';
 
 const [, transmuteVendor] = fixtures.vendors as any[];
 
-describe('should work', () => {
+describe('common datetime formatting', () => {
   it('issue credential', async () => {
     const credential = {
       ...fixtures.test_vectors.ld.credentialTemplate,
