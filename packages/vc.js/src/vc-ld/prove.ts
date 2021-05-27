@@ -1,9 +1,11 @@
 import { sign } from '@transmute/linked-data-proof';
+
 import { checkPresentation } from './checkPresentation';
 import { checkCredential } from './checkCredential';
 import constants from './constants';
 
 import { AuthenticationProofPurpose } from './purposes';
+import credentialUtil from './util/credentialUtil';
 
 export const createPresentation = async ({
   verifiableCredential,
@@ -19,6 +21,7 @@ export const createPresentation = async ({
     const credentials = [].concat(verifiableCredential);
     // ensure all credentials are valid
     for (const credential of credentials) {
+      credentialUtil.formatDates(credential);
       await checkCredential(credential, documentLoader);
     }
     presentation.verifiableCredential = credentials;

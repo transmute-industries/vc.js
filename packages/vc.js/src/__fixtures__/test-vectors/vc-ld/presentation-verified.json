@@ -8,7 +8,7 @@
           "type": "Ed25519Signature2018",
           "created": "2019-12-11T03:50:55Z",
           "challenge": "123",
-          "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..aJivp-p1DCKUdDiehok6VHluA48QJLph8zpSNfmEJjHbs-CK-Np5xTAAMhLLEZir2cYx-rvJgNMwyqKa4P8ACA",
+          "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..lccvoWE1sWncbIfVhJnw3j4kqnqZGCxXLbuJIATFonqMF-CWC0Eq1c2Y7zWExznz0VtG0C68himra6DW4tlKDA",
           "proofPurpose": "authentication",
           "verificationMethod": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ#z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ"
         },
@@ -65,7 +65,7 @@
             "@context": "https://w3id.org/security/v2",
             "type": "Ed25519Signature2018",
             "created": "2019-12-11T03:50:55Z",
-            "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..sW-8OqzPxieDbJvnFX2WKTsXz2HP5JAvNaIpvTneqbZxSnGlvdpBNwFLQPLNi4L0kYqWl5o8BE1f0Z04Ard9BQ",
+            "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..Vv0ipjpdn8IBSmAaqZnFsKAsJrLX5WA_Z_uHZ_oAA8gXMvjfPLD1wWnIiFKjfxuSUUOGLv3gCeuMw-tBygldBw",
             "proofPurpose": "assertionMethod",
             "verificationMethod": "did:key:z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ#z6MkpP568Jfkc1n51vdEut2EebtvhFXkod7S6LMZTVPGsZiZ"
           },
