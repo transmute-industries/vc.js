@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { IVcJwtPayload } from '../types';
 import { checkCredential } from '../vc-ld/checkCredential';
+import credentialUtil from '../vc-ld/util/credentialUtil';
 
 const isObject = (data: any) => {
   if (Array.isArray(data)) {
@@ -36,6 +37,7 @@ export const issue = async (
 
   let subject = credentialTemplate.credentialSubject.id;
 
+  credentialUtil.formatDates(credentialTemplate);
   await checkCredential(credentialTemplate, documentLoader);
 
   const payload: IVcJwtPayload = {

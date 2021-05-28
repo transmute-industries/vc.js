@@ -1,7 +1,9 @@
 import { sign } from '@transmute/linked-data-proof';
+
 import { IIssueOptions } from '../types';
 import { CredentialIssuancePurpose } from './purposes';
 import { checkCredential } from './checkCredential';
+import credentialUtil from './util/credentialUtil';
 
 export const issue = async (options: IIssueOptions) => {
   const { credential, suite, documentLoader } = options;
@@ -10,6 +12,7 @@ export const issue = async (options: IIssueOptions) => {
   if (!credential) {
     throw new TypeError('"credential" parameter is required for issuing.');
   }
+  credentialUtil.formatDates(credential);
   await checkCredential(credential, documentLoader);
 
   if (!documentLoader) {

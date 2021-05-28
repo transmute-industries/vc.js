@@ -1,6 +1,6 @@
 import jsonld from 'jsonld';
 import { check } from 'jsonld-checker';
-// import constants from './constants';
+import credentialUtil from './util/credentialUtil';
 
 const dateRegex = new RegExp(
   '^(\\d{4})-(0[1-9]|1[0-2])-' +
@@ -29,6 +29,7 @@ export const checkCredential = async (credential: any, documentLoader: any) => {
     // might be a JWT... in which case... there is no way to validate....
     return;
   }
+  credentialUtil.formatDates(credential);
   const isValidJsonLd = await check(credential, documentLoader);
   if (!isValidJsonLd.ok) {
     throw new Error(
